@@ -89,11 +89,11 @@ class AnimeViewer:
 
         # Avatar Image
         try:
-            self.avatar = CTkLabel(self.avatar_frame, 125, 125, 0, "transparent",
-                                   image=load_image_old(ls.getItem("avatar_url"), (125, 125)), text="")
-            self.avatar.bind("<Button-1>", lambda e: open_new(f"https://anilist.co/user/{ls.getItem("username")}"))
+            username = ls.getItem("username")
+            self.avatar = CTkLabel(self.avatar_frame, 125, 125, 0, "transparent", image=load_image_old(ls.getItem("avatar_url"), (125, 125)), text="")
+            self.avatar.bind("<Button-1>", lambda e: open_new(f"https://anilist.co/user/{username}"))
             self.avatar.grid(row=0, column=0, padx=10)
-        except requests.exceptions.MissingSchema:
+        except:
             print("Raise Error: Not Logged in or Couldn't Load Avatar Image")
             self.avatar = CTkLabel(self.avatar_frame, 150, 150, 0, "transparent",
                                    image=load_file("img/AniList.png", (125, 125)), text="")
