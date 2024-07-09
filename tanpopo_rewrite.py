@@ -3,7 +3,7 @@ import threading
 import aiohttp
 import asyncio
 from customtkinter import *
-from webbrowser import *
+from webbrowser import open as webopen
 from PIL import Image, ImageTk, UnidentifiedImageError
 import requests
 from io import BytesIO
@@ -38,8 +38,12 @@ class AnimeViewer:
         self.screen_height = self.master.winfo_screenheight()
 
         self.toplevel_window = None
-        # //////// Here is the URL Cover List, its bound to a def to get the urls, which I removed for updating reasons
-        # Just paste some urls and look for yourself (:
+        #attempting to add function to auto read media_info, prob will fail but gambae as Roy would say, gambae.
+        
+        #with open ("media_info.json") as  mediainfo:
+         #   mediainfojson = json.load(mediainfo)
+          #  print(f"media info: {mediainfo}")
+        
         self.recently_updated_urls = []
 
         # Make the main window resizable
@@ -91,7 +95,7 @@ class AnimeViewer:
         try:
             username = ls.getItem("username")
             self.avatar = CTkLabel(self.avatar_frame, 125, 125, 0, "transparent", image=load_image_old(ls.getItem("avatar_url"), (125, 125)), text="")
-            self.avatar.bind("<Button-1>", lambda e: open_new(f"https://anilist.co/user/{username}"))
+            self.avatar.bind("<Button-1>", lambda e: webopen(f"https://anilist.co/user/{username}"))
             self.avatar.grid(row=0, column=0, padx=10)
         except:
             print("Raise Error: Not Logged in or Couldn't Load Avatar Image")
@@ -106,7 +110,7 @@ class AnimeViewer:
                                            font=CTkFont(size=16, weight="bold"))
             self.username_label.grid(row=1, column=0, padx=10)
         else:
-            self.username_label = CTkLabel(self.avatar_frame, text=f"Hello {ls.getItem("username")}!", fg_color=grey(),
+            self.username_label = CTkLabel(self.avatar_frame, text=f'Hello {ls.getItem("username")}!', fg_color=grey(),
                                            font=CTkFont(size=16, weight="bold"))
             self.username_label.grid(row=1, column=0, padx=10)
 
