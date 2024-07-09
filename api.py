@@ -2,6 +2,7 @@ import time
 import json
 from authwindow import *
 from localStoragePy import localStoragePy
+import re
 
 ls = localStoragePy('Tanpopo Rewrite', 'json')
 

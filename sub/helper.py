@@ -1,5 +1,3 @@
-# helpers.py
-
 import customtkinter as ctk
 import requests
 from PIL import Image, UnidentifiedImageError
@@ -7,8 +5,13 @@ import asyncio
 import aiohttp
 from io import BytesIO
 import tkinter as tk
-import customtkinter
+from customtkinter import CTkLabel
 
+from sub import loadcovers
+from sub.Hover import HoverLabel
+
+grey = "#242424"
+darkgrey = "#191919"
 
 def load_file(url, size):
     img = Image.open(url)
@@ -48,14 +51,22 @@ def handle_image_loading_error(frame, shimmer_label):
 # Function to update the UI with loaded images
 def update_ui_with_images(urls, frame, size, shimmer_labels):
     async def load_images():
+        anime_names = loadcovers.print_names()  # Retrieve anime names
         for i, (url, shimmer_label) in enumerate(zip(urls, shimmer_labels)):
-            print(i)
             img = await load_image_async(url, size)
             if img:  # Check if image loading was successful
-                img_label = ctk.CTkLabel(master=frame, image=img, text="")
+                anime_name = anime_names[i]  # Get the corresponding anime name
+                img_label = HoverLabel(
+                    master=frame,
+                    text="",
+                    fg_color=grey,
+                    image=img,
+                    anime_name=anime_name  # Pass the anime name to the HoverLabel
+                )
                 img_label.image = img  # Keep a reference to avoid garbage collection
                 img_label.grid(row=0, column=i, padx=10)
                 shimmer_label.destroy()  # Remove the shimmer label
+                print(f"Image loaded and HoverLabel created for: {anime_name}")
             else:
                 handle_image_loading_error(frame, shimmer_label)
 
@@ -80,4 +91,3 @@ def create_shimmer_label(master, width, height):
 
     animate()
     return canvas
-

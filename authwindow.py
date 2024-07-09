@@ -90,6 +90,7 @@ class ToplevelWindow(customtkinter.CTkToplevel):
         #self.after(201, lambda: self.iconbitmap('favicon.ico'))
         self.geometry("200x140")
         self.minsize(200, 140)
+        self.attributes('-topmost', True)
 
         # ---- Check Auth File and Open Browser
         get_authorization_code()

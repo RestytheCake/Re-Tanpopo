@@ -30,11 +30,8 @@ class AnimeViewer:
 
         self.toplevel_window = None
 
-
-
-
         # Call the function to print cover images
-        self.recently_updated_urls = sub.loadcovers.print_cover_images('media_info.json')
+        self.recently_updated_urls = sub.loadcovers.print_cover_images()
         # Make the main window resizable
         self.master.rowconfigure(0, weight=1)
         self.master.columnconfigure(0, weight=1)
@@ -222,10 +219,6 @@ class AnimeViewer:
         )
         version_text.place(relx=1.0, rely=1.0, anchor="se")
 
-
-class HoverLabel(CTkLabel):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
 if __name__ == "__main__":
     root = CTk()
