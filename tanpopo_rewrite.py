@@ -69,24 +69,28 @@ class AnimeViewer:
         self.button_frame.rowconfigure(0, weight=1)
         self.button_frame.rowconfigure(1, weight=1)
         self.button_frame.rowconfigure(2, weight=1)
+        self.button_frame.rowconfigure(3, weight=1)
+        self.button_frame.rowconfigure(4, weight=1)
 
         # ---- Buttons
         self.button = CTkButton(self.button_frame, text="Refresh Anilist", font=CTkFont(size=12, weight="bold"),
                                 command=self.load_api)
-        self.button.grid(row=0, column=0, pady=5, padx=5, sticky="e")
+        self.button.grid(row=0, column=0, pady=5, padx=5, sticky="we")
 
         self.auth_button = CTkButton(self.button_frame, text="Refresh Authentication",
                                      font=CTkFont(size=12, weight="bold"), command=authwindow.ToplevelWindow, )
-        self.auth_button.grid(row=1, column=0, pady=5, padx=5, sticky="e")
+        self.auth_button.grid(row=1, column=0, pady=5, padx=5, sticky="we")
+
+        self.titles = CTkButton(self.button_frame, text="Anime name prefrence", font=CTkFont(size=12, weight="bold"), )
+        self.titles.grid(row=2, column=0, pady=5, padx=5, sticky="we")
 
         self.mpv_button = CTkButton(self.button_frame, text="Set MPV location", font=CTkFont(size=12, weight="bold"), )
-        self.mpv_button.grid(row=2, column=0, pady=5, padx=5, sticky="e")
+        self.mpv_button.grid(row=3, column=0, pady=5, padx=5, sticky="we")
         
-        """self.credits = CTkButton(self.button_frame, text="Credits", font=CTkFont(size=12, weight="bold"), )
-        self.credits.grid(row=2, column=0, pady=5, padx=5, sticky="e")
+        self.credits = CTkButton(self.button_frame, text="Credits", font=CTkFont(size=12, weight="bold"), )
+        self.credits.grid(row=4, column=0, pady=5, padx=5, sticky="we")
         
-        self.titles = CTkButton(self.button_frame, text="Anime name prefrence", font=CTkFont(size=12, weight="bold"), )
-        self.titles.grid(row=2, column=0, pady=5, padx=5, sticky="e")"""
+
 
         # Watching frame for displaying continue watching content
         self.video_frame = CTkFrame(self.main_frame, fg_color=darkgrey)

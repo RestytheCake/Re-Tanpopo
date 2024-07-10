@@ -54,7 +54,7 @@ def fetch_anime_info(anime_ids):
             anime_info.append(data['data']['Media'])
 
         # Adding delay to avoid hitting rate limit
-        time.sleep(2)
+        time.sleep(0.5)
 
     return anime_info
 
@@ -169,13 +169,13 @@ def get_media_list_collection(access_token, user_id):
     }
 
     current_shows = fetch_media_list('CURRENT')
-    time.sleep(2)
+    time.sleep(1)
     rewatched_shows = fetch_media_list('REPEATING')
-    time.sleep(2)
+    time.sleep(1)
     completed_shows = fetch_media_list('COMPLETED')
-    time.sleep(2)
+    time.sleep(1)
     plan_to_watch_shows = fetch_media_list('PLANNING')
-    time.sleep(2)
+    time.sleep(1)
 
     return current_shows, rewatched_shows, completed_shows, plan_to_watch_shows
 
