@@ -136,6 +136,7 @@ class AnimeViewer:
         # Recently Updated Frame
         self.init_video_frame_content()
 
+
         """
         # ~~~ Paused ~~~
 
