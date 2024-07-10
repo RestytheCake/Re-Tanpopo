@@ -9,9 +9,12 @@ import authwindow
 import sub.helper as helper
 import api
 import sub.loadcovers
+#import sub.discordpresence
+#for some reason that's bugged if uncommentied will just run thatpresence script nothing else.
 
 # Initialize Database
 ls = localStoragePy("Tanpopo Rewrite", "json")
+
 
 
 # Color
