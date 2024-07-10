@@ -13,8 +13,6 @@ from sub import rpc
 from sub.Hover import HoverLabel
 from sub.rpc import DiscordRPC
 
-#import sub.discordpresence
-#for some reason that's bugged if uncommentied will just run thatpresence script nothing else.
 
 # Initialize Database
 ls = localStoragePy("Tanpopo Rewrite", "json")
@@ -83,6 +81,12 @@ class AnimeViewer:
 
         self.mpv_button = CTkButton(self.button_frame, text="Set MPV location", font=CTkFont(size=12, weight="bold"), )
         self.mpv_button.grid(row=2, column=0, pady=5, padx=5, sticky="e")
+        
+        """self.credits = CTkButton(self.button_frame, text="Credits", font=CTkFont(size=12, weight="bold"), )
+        self.credits.grid(row=2, column=0, pady=5, padx=5, sticky="e")
+        
+        self.titles = CTkButton(self.button_frame, text="Anime name prefrence", font=CTkFont(size=12, weight="bold"), )
+        self.titles.grid(row=2, column=0, pady=5, padx=5, sticky="e")"""
 
         # Watching frame for displaying continue watching content
         self.video_frame = CTkFrame(self.main_frame, fg_color=darkgrey)
