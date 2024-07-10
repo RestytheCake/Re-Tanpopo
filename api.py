@@ -229,3 +229,6 @@ def Load_API():
             print("No data retrieved for any of the lists.")
     else:
         print("AniList access token or user ID not found in account.json.")
+
+
+

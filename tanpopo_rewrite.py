@@ -10,6 +10,7 @@ import sub.helper as helper
 import api
 import sub.loadcovers
 from sub import rpc
+from sub.Hover import HoverLabel
 from sub.rpc import DiscordRPC
 
 #import sub.discordpresence
@@ -73,7 +74,7 @@ class AnimeViewer:
 
         # ---- Buttons
         self.button = CTkButton(self.button_frame, text="Refresh Anilist", font=CTkFont(size=12, weight="bold"),
-                                command=api.Load_API, )
+                                command=self.load_api)
         self.button.grid(row=0, column=0, pady=5, padx=5, sticky="e")
 
         self.auth_button = CTkButton(self.button_frame, text="Refresh Authentication",
@@ -106,7 +107,8 @@ class AnimeViewer:
             self.avatar.grid(row=0, column=0, padx=10)
         except:
             print("Raise Error: Not Logged in or Couldn't Load Avatar Image")
-            self.avatar = CTkLabel(self.avatar_frame, 150, 150, 0, "transparent", image=helper.load_file("img/AniList.png", (125, 125)), text="",)
+            self.avatar = CTkLabel(self.avatar_frame, 150, 150, 0, "transparent",
+                                   image=helper.load_file("img/AniList.png", (125, 125)), text="", )
             self.avatar.grid(row=0, column=0, padx=10)
 
         # Username Check
@@ -132,55 +134,7 @@ class AnimeViewer:
         # Top End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         print("Top End")
         # Recently Updated Frame
-        self.watching_frame = CTkFrame(master=self.video_frame, fg_color="#0096FF")
-        self.watching_frame.grid(row=0, column=0, padx=10, pady=10, sticky="new")
-        self.watching_frame.grid_columnconfigure(0, weight=1)
-
-        # Watching Text
-        self.recently_text = CTkLabel(master=self.watching_frame, text="Continue Watching", font=CTkFont(size=18, weight="bold"), text_color="white")
-        self.recently_text.grid(row=0, column=0, padx=5, sticky="nw")
-
-        # Watching Shows
-        self.recently_video_frame = CTkScrollableFrame(master=self.watching_frame, fg_color=grey,
-                                                       orientation="horizontal", height=120)
-        self.recently_video_frame.grid(row=1, column=0, padx=0, sticky="new")
-
-        # URLS for Effects don't touch it
-        self.recently_updated_shimmer_labels = []
-        for i in range(len(self.current_anime_urls)):
-            shimmer_label = helper.create_shimmer_label(self.recently_video_frame, 80, 115)
-            shimmer_label.grid(row=0, column=i, padx=10)
-            self.recently_updated_shimmer_labels.append(shimmer_label)
-
-        threading.Thread(
-            target=helper.update_ui_with_images,
-            args=(self.current_anime_urls, self.recently_video_frame, (80, 115),
-                  self.recently_updated_shimmer_labels)).start()
-        # threading for Python Multitasking, so that python doesn't lag when loading the images with poor WI-FI or bad server
-
-        # ~~~ Planned ~~~
-        self.planned_frame = CTkFrame(master=self.video_frame, fg_color="#963567")
-        self.planned_frame.grid(row=1, column=0, padx=10, pady=5, sticky="new")
-        self.planned_frame.grid_columnconfigure(0, weight=1)
-
-        self.planned_text = CTkLabel(master=self.planned_frame, text="Planned Watching",
-                                     font=CTkFont(size=18, weight="bold"), text_color="white", )
-        self.planned_text.grid(row=0, column=0, padx=5, sticky="nw")
-
-        self.planned_video_frame = CTkScrollableFrame(master=self.planned_frame, fg_color=grey,
-                                                      orientation="horizontal", height=120)
-        self.planned_video_frame.grid(row=1, column=0, padx=0, sticky="new")
-
-        self.plan_to_watch_anime_shimmer_labels = []
-        for i in range(len(self.plan_to_watch_anime_urls)):
-            shimmer_label = helper.create_shimmer_label(self.planned_video_frame, 80, 115)
-            shimmer_label.grid(row=0, column=i, padx=10)
-            self.plan_to_watch_anime_shimmer_labels.append(shimmer_label)
-
-        threading.Thread(
-            target=helper.update_ui_with_images,
-            args=(self.plan_to_watch_anime_urls, self.planned_video_frame, (80, 115),
-                  self.plan_to_watch_anime_shimmer_labels)).start()
+        self.init_video_frame_content()
 
         """
         # ~~~ Paused ~~~
@@ -204,10 +158,79 @@ class AnimeViewer:
             self.master,
             text="ver 0.0.7",
             text_color="#FFFFFF",
-            fg_color="#121212",
+            fg_color=darkgrey,
             padx="10",
         )
         version_text.place(relx=1.0, rely=1.0, anchor="se")
+
+    def init_video_frame_content(self):
+        """
+        Initialize content in the video_frame.
+        This can be called during the initial setup or when reloading the frame.
+        """
+        # Recently Updated Frame
+        self.watching_frame = CTkFrame(master=self.video_frame, fg_color="#0096FF")
+        self.watching_frame.grid(row=0, column=0, padx=10, pady=10, sticky="new")
+        self.watching_frame.grid_columnconfigure(0, weight=1)
+
+        # Watching Text
+        self.recently_text = CTkLabel(master=self.watching_frame, text="Continue Watching",
+                                      font=CTkFont(size=18, weight="bold"), text_color="white")
+        self.recently_text.grid(row=0, column=0, padx=5, sticky="nw")
+
+        # Watching Shows
+        self.recently_video_frame = CTkScrollableFrame(master=self.watching_frame, fg_color=grey,
+                                                       orientation="horizontal", height=120)
+        self.recently_video_frame.grid(row=1, column=0, padx=0, sticky="new")
+
+        # URLS for Effects don't touch it
+        self.recently_updated_shimmer_labels = []
+        for i in range(len(self.current_anime_urls)):
+            shimmer_label = helper.create_shimmer_label(self.recently_video_frame, 80, 115)
+            shimmer_label.grid(row=0, column=i, padx=10)
+            self.recently_updated_shimmer_labels.append(shimmer_label)
+
+        threading.Thread(
+            target=helper.update_ui_with_images,
+            args=(self.current_anime_urls, self.recently_video_frame, (80, 115),
+                  self.recently_updated_shimmer_labels, "Currently Watching")).start()
+
+        # ~~~ Planned ~~~
+        self.planned_frame = CTkFrame(master=self.video_frame, fg_color="#963567")
+        self.planned_frame.grid(row=1, column=0, padx=10, pady=5, sticky="new")
+        self.planned_frame.grid_columnconfigure(0, weight=1)
+
+        self.planned_text = CTkLabel(master=self.planned_frame, text="Planned Watching",
+                                     font=CTkFont(size=18, weight="bold"), text_color="white", )
+        self.planned_text.grid(row=0, column=0, padx=5, sticky="nw")
+
+        self.planned_video_frame = CTkScrollableFrame(master=self.planned_frame, fg_color=grey,
+                                                      orientation="horizontal", height=120)
+        self.planned_video_frame.grid(row=1, column=0, padx=0, sticky="new")
+
+        self.plan_to_watch_anime_shimmer_labels = []
+        for i in range(len(self.plan_to_watch_anime_urls)):
+            shimmer_label = helper.create_shimmer_label(self.planned_video_frame, 80, 115)
+            shimmer_label.grid(row=0, column=i, padx=10)
+            self.plan_to_watch_anime_shimmer_labels.append(shimmer_label)
+
+        threading.Thread(
+            target=helper.update_ui_with_images,
+            args=(self.plan_to_watch_anime_urls, self.planned_video_frame, (80, 115),
+                  self.plan_to_watch_anime_shimmer_labels, "Plan to Watch")).start()
+
+    def load_api(self):
+        """
+        Reload or refresh the video_frame.
+        Clears existing content and initializes it again.
+        """
+        # Clear current content
+        api.Load_API()
+        for widget in self.video_frame.winfo_children():
+            widget.destroy()
+
+        # Reinitialize content
+        self.init_video_frame_content()
 
 
 if __name__ == "__main__":

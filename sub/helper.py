@@ -50,9 +50,9 @@ def handle_image_loading_error(frame, shimmer_label):
 
 
 # Function to update the UI with loaded images
-def update_ui_with_images(urls, frame, size, shimmer_labels):
+def update_ui_with_images(urls, frame, size, shimmer_labels, watchtype):
     async def load_images():
-        anime_names = loadcovers.print_names()  # Retrieve anime names
+        anime_names = loadcovers.print_names(watchtype=watchtype)  # Retrieve anime names
         for i, (url, shimmer_label) in enumerate(zip(urls, shimmer_labels)):
             img = await load_image_async(url, size)
             if img:  # Check if image loading was successful
