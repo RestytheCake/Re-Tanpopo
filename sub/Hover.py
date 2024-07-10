@@ -24,9 +24,9 @@ class HoverLabel(CTkLabel):
             self.frame.pack()
 
             # Tooltip label
-            self.label = tk.Label(self.frame, text=self.anime_name, bg="#212121", fg="white", font=("Arial", 12, "bold"))
+            self.label = tk.Label(self.frame, text=self.anime_name, bg="#212121", fg="white",
+                                  font=("Arial", 12, "bold"))
             self.label.pack()
-
             # Position the tooltip initially
             self.update_tooltip_position(event)
 
@@ -44,4 +44,3 @@ class HoverLabel(CTkLabel):
         x = event.x_root + 20
         y = event.y_root + 20
         self.tooltip.geometry(f"+{x}+{y}")
-

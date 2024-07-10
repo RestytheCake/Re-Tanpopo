@@ -13,6 +13,7 @@ from sub.Hover import HoverLabel
 grey = "#242424"
 darkgrey = "#191919"
 
+
 def load_file(url, size):
     img = Image.open(url)
     return ctk.CTkImage(img, size=size)
