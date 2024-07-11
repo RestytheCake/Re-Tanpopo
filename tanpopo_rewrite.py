@@ -9,7 +9,7 @@ import authwindow
 import sub.helper as helper
 import api
 import sub.loadcovers
-from sub import rpc
+from settings import SettingsWindow
 from sub.Hover import HoverLabel
 from sub.rpc import DiscordRPC
 
@@ -67,11 +67,12 @@ class AnimeViewer:
         self.button_frame.grid(row=0, column=1, pady=15, padx=15, sticky="nes")
         self.button_frame.columnconfigure(0, weight=1)
         self.button_frame.rowconfigure(0, weight=1)
-        self.button_frame.rowconfigure(1, weight=1)
-        self.button_frame.rowconfigure(2, weight=1)
-        self.button_frame.rowconfigure(3, weight=1)
-        self.button_frame.rowconfigure(4, weight=1)
 
+        self.setting_button = CTkButton(self.button_frame, text="Settings", image=helper.load_file("img/setting.png", (32, 32)), compound="left", font=CTkFont(size=32, weight="bold"),
+                                command=SettingsWindow())
+        self.setting_button.grid(row=0, column=0, pady=5, padx=5, sticky="we")
+
+        '''
         # ---- Buttons
         self.button = CTkButton(self.button_frame, text="Refresh Anilist", font=CTkFont(size=12, weight="bold"),
                                 command=self.load_api)
@@ -89,6 +90,7 @@ class AnimeViewer:
         
         self.credits = CTkButton(self.button_frame, text="Credits", font=CTkFont(size=12, weight="bold"), )
         self.credits.grid(row=4, column=0, pady=5, padx=5, sticky="we")
+        '''
         
 
 
