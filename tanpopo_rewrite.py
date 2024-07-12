@@ -9,10 +9,8 @@ import authwindow
 import sub.helper as helper
 import api
 import sub.loadcovers
-from settings import SettingsWindow
-from sub.Hover import HoverLabel
 from sub.rpc import DiscordRPC
-
+from sub.settings import SettingsWindow
 
 # Initialize Database
 ls = localStoragePy("Tanpopo Rewrite", "json")
@@ -20,6 +18,11 @@ ls = localStoragePy("Tanpopo Rewrite", "json")
 # Color
 grey = "#242424"
 darkgrey = "#191919"
+
+
+def open_settings():
+    settings_window = SettingsWindow()
+    settings_window.grab_set()  # To make the settings window modal
 
 
 class AnimeViewer:
@@ -69,7 +72,7 @@ class AnimeViewer:
         self.button_frame.rowconfigure(0, weight=1)
 
         self.setting_button = CTkButton(self.button_frame, text="Settings", image=helper.load_file("img/setting.png", (32, 32)), compound="left", font=CTkFont(size=32, weight="bold"),
-                                command=SettingsWindow())
+                                        command=open_settings)
         self.setting_button.grid(row=0, column=0, pady=5, padx=5, sticky="we")
 
         '''
@@ -164,15 +167,6 @@ class AnimeViewer:
         """
 
         # Bottom End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        version_text = CTkLabel(
-            self.master,
-            text="ver 0.0.7",
-            text_color="#FFFFFF",
-            fg_color=darkgrey,
-            padx="10",
-        )
-        version_text.place(relx=1.0, rely=1.0, anchor="se")
 
     def init_video_frame_content(self):
         """
