@@ -2,7 +2,7 @@ import customtkinter as ctk
 
 
 def create_category_buttons(self, frame):
-    buttons = ["Services", "Library", "Application", "Recognition", "Advanced", "Version", "Credits", "Clear"]
+    buttons = ["Services", "Library", "Application", "Recognition", "Advanced", "Player", "Version", "Credits", "Clear"]
     for button in buttons:
         btn = ctk.CTkButton(frame, text=button, anchor="w", command=lambda b=button: on_button_click(self, b))
         btn.pack(fill="x", pady=5, padx=7)

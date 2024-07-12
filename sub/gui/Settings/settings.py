@@ -5,6 +5,7 @@ from sub.gui.Settings.service_frame.application import create_application_frame
 from sub.gui.Settings.service_frame.clear import create_clear_frame
 from sub.gui.Settings.service_frame.credits import create_credits_frame
 from sub.gui.Settings.service_frame.library import create_library_frame
+from sub.gui.Settings.service_frame.player import create_player_frame
 from sub.gui.Settings.service_frame.recognition import create_recognition_frame
 from sub.gui.Settings.service_frame.services import create_services_frame
 from sub.gui.Settings.service_frame.version import create_version_frame
@@ -63,6 +64,7 @@ class SettingsWindow(ctk.CTkToplevel):
         create_application_frame(self)
         create_recognition_frame(self)
         create_advanced_frame(self)
+        create_player_frame(self)
         create_version_frame(self)
         create_credits_frame(self)
         create_clear_frame(self)
