@@ -106,7 +106,14 @@ class SettingsWindow(ctk.CTkToplevel):
     def create_version_frame(self):
         version_frame = ctk.CTkFrame(self.content_frame)
         self.frames["Version"] = version_frame
-        ctk.CTkLabel(version_frame, text="Version", font=ctk.CTkFont(size=16)).pack(anchor="w", pady=(10, 5))
+        notebook = ctk.CTkTabview(version_frame)
+        notebook.pack(fill="both", expand=True)
+
+        # Credits Tab
+        version_tab = notebook.add("Version")
+
+        ctk.CTkLabel(version_tab, text="Version -  Alpha", font=ctk.CTkFont(size=16)).pack(anchor="w")
+        ctk.CTkLabel(version_tab, text="0.0.0.0.0.0.0.0.0.0.01").pack(anchor="w", pady=(5, 2))
 
     def create_credits_frame(self):
         credits_frame = ctk.CTkFrame(self.content_frame)
