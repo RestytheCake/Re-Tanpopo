@@ -1,10 +1,13 @@
+import os
 import time
 import json
-from authwindow import *
+
+import requests
 from localStoragePy import localStoragePy
 import re
 
-ls = localStoragePy('Tanpopo Rewrite', 'json')
+from sub.modules.filepath import anilist_info
+from sub.modules.globalmanager import GlobalManager
 
 
 # Function to clear the JSON file
@@ -181,12 +184,12 @@ def get_media_list_collection(access_token, user_id):
 
 
 def Load_API():
+    ls = localStoragePy('Tanpopo Rewrite', 'json')
     # Fetch the AniList access token and user ID from account.json
     try:
         access_token = ls.getItem('access_token')
         user_id = ls.getItem('user_id')
     except FileNotFoundError:
-        ToplevelWindow()
         access_token = None
         user_id = None
 
@@ -195,7 +198,8 @@ def Load_API():
                                                                                                          user_id)
         if current_shows or rewatched_shows or completed_shows or plan_to_watch_shows:
             # Clear the JSON file before refreshing it
-            clear_json_file("media_info.json")
+            print("refresh anilist info")
+            clear_json_file(anilist_info)
 
             # Proceed with fetching anime information and storing it in the JSON file
             current_anime_ids = set(entry['media']['id'] for media_list in current_shows['lists'] for entry in
@@ -222,7 +226,15 @@ def Load_API():
             }
 
             # Store anime info in JSON file
-            store_anime_info(formatted_info, "media_info.json")
+            store_anime_info(formatted_info, anilist_info)
+            bottom_frame_instance = GlobalManager.get_bottom_frame_instance()
+            top_frame_instance = GlobalManager.get_top_frame_instance()
+            if bottom_frame_instance:
+                bottom_frame_instance.update_settings()
+            if top_frame_instance:
+                top_frame_instance.update_settings()
+            else:
+                print("Frame instance is not initialized")
 
             print("AniList refresh successful.")
         else:

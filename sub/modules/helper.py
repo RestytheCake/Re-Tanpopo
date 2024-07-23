@@ -5,13 +5,10 @@ import asyncio
 import aiohttp
 from io import BytesIO
 import tkinter as tk
-from customtkinter import CTkLabel
 
-from sub import loadcovers
-from sub.Hover import HoverLabel
-
-grey = "#242424"
-darkgrey = "#191919"
+from sub.modules import loadcovers
+from sub.gui.Hover.Hover import HoverLabel
+from sub.modules.colors import grey
 
 
 def load_file(url, size):

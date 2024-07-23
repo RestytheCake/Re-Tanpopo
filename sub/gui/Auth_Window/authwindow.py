@@ -1,17 +1,20 @@
+from time import sleep
 from tkinter import StringVar
+
 import customtkinter
-import os
-import subprocess
-from urllib.parse import urlparse, parse_qs
 import webbrowser
 import requests
 from localStoragePy import localStoragePy
-from tanpopo_rewrite import *
+
+from sub.modules.api import Load_API
 
 # Step 1: Register your application and obtain client credentials
 CLIENT_ID = '17593'
 CLIENT_SECRET = '5FLMx3yxCAmHqjMCwkb2QTWKqZ2DFBqCOLZxM5iC'
 REDIRECT_URI = 'https://ninestails.xyz/auth.html'
+
+ls_settings = localStoragePy("Settings", "json")
+ls = localStoragePy("Tanpopo Rewrite", "json")
 
 
 # Step 2: Redirect user to AniList's authorization page
@@ -45,6 +48,10 @@ def exchange_code_for_token(authorization_code):
                 ls.setItem("user_id", user_info['id'])
                 ls.setItem("username", user_info['name'])
                 ls.setItem("avatar_url", user_info['avatar']['large'])
+                ls_settings.setItem("AniList/watching", True)
+                ls_settings.setItem("AniList/planned", True)
+                ls_settings.setItem("AniList/rewatched", False)
+                ls_settings.setItem("AniList/completed", False)
 
                 return ls.getItem("access_token")
             else:
@@ -119,6 +126,7 @@ class ToplevelWindow(customtkinter.CTkToplevel):
             if access_token:
                 print("Access token:", access_token)
                 print("Success")
+                Load_API()
                 self.destroy()
             else:
                 print("Authorization failed.")
