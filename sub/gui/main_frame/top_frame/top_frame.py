@@ -5,11 +5,8 @@ from webbrowser import open as webopen
 from sub.gui.Settings.settings import SettingsWindow
 from sub.modules import helper
 from sub.modules.colors import grey
-
-
-def open_settings():
-    settings_window = SettingsWindow()
-    settings_window.grab_set()
+from sub.modules.globalmanager import GlobalManager
+from sub.modules.path import get_project_root
 
 
 class Top_Frame(CTk):
@@ -22,15 +19,20 @@ class Top_Frame(CTk):
         self.top_frame.columnconfigure(1, weight=1, minsize=300)
         self.init()
 
+    def open_settings(self):
+        settingswindow_instance = SettingsWindow(self)
+        GlobalManager.set_settings_window_instance(settingswindow_instance)
+
     def button_func(self):
         self.button_frame = CTkFrame(self.top_frame, fg_color=grey)
         self.button_frame.grid(row=0, column=1, pady=15, padx=15, sticky="nes")
         self.button_frame.columnconfigure(0, weight=1)
         self.button_frame.rowconfigure(0, weight=1)
         self.setting_button = CTkButton(self.button_frame, text="Settings",
-                                        image=helper.load_file("img/setting.png", (32, 32)), compound="left",
+                                        image=helper.load_file(f"{get_project_root()}/img/setting.png", (32, 32)),
+                                        compound="left",
                                         font=CTkFont(size=32, weight="bold"),
-                                        command=open_settings)
+                                        command=self.open_settings)
         self.setting_button.grid(row=0, column=0, pady=5, padx=5, sticky="we")
 
     def avatar_frame_func(self):
@@ -70,5 +72,5 @@ class Top_Frame(CTk):
 
     def update_settings(self):
         print("Updating settings...")
-        self.avatar_frame_func()
+        self.init()
         print("Reinitialized avatar frame content.")

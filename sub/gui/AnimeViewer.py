@@ -13,6 +13,7 @@ ls = localStoragePy("Tanpopo Rewrite", "json")
 # Initialize global variable
 global_bottom_frame_instance = None
 
+
 class AnimeViewer:
     def __init__(self, master):
         self.top_frame = None

@@ -98,6 +98,7 @@ class ToplevelWindow(customtkinter.CTkToplevel):
         self.geometry("200x140")
         self.minsize(200, 140)
         self.attributes('-topmost', True)
+        #self.grab_set()
 
         # ---- Check Auth File and Open Browser
         get_authorization_code()

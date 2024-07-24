@@ -1,7 +1,8 @@
 class GlobalManager:
     _instance = None
     bottom_frame_instance = None
-    top_frame_instance = None  # Add the new variable here
+    top_frame_instance = None
+    settings_window_instance = None
 
     def __new__(cls):
         if cls._instance is None:
@@ -23,3 +24,11 @@ class GlobalManager:
     @classmethod
     def set_top_frame_instance(cls, instance):  # Setter method for the new variable
         cls.top_frame_instance = instance
+
+    @classmethod
+    def get_settings_window_instance(cls):  # Getter for settings window instance
+        return cls.settings_window_instance
+
+    @classmethod
+    def set_settings_window_instance(cls, instance):  # Setter for settings window instance
+        cls.settings_window_instance = instance

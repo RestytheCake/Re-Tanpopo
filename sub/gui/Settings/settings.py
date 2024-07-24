@@ -14,20 +14,27 @@ from sub.modules.globalmanager import GlobalManager
 ctk.set_appearance_mode("System")
 ctk.set_default_color_theme("blue")
 
-ls_settings = localStoragePy("Settings", "json")
+# Local storage initialization
+ls_settings_init = localStoragePy("Settings", "json")
 
 
 class SettingsWindow(ctk.CTkToplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.rewatched_var = None
-        self.planned_var = None
-        self.watching_var = None
-        self.completed_var = None
+        self.rewatched_var = ctk.BooleanVar()
+        self.planned_var = ctk.BooleanVar()
+        self.watching_var = ctk.BooleanVar()
+        self.completed_var = ctk.BooleanVar()
+
         self.title("Settings")
         self.geometry("600x500")
+        self.grab_set()
 
+        # Call the method to build the window
+        self.build_window()
+
+    def build_window(self):
         # Main Frame
         main_frame = ctk.CTkFrame(self)
         main_frame.pack(fill="both", expand=True, padx=10, pady=10)
@@ -68,12 +75,11 @@ class SettingsWindow(ctk.CTkToplevel):
 
     def save_settings(self):
         print("save")
-        # Save AniList settings
+        ls_settings = localStoragePy("Settings", "json")
         ls_settings.setItem("AniList/watching", self.watching_var.get())
         ls_settings.setItem("AniList/planned", self.planned_var.get())
         ls_settings.setItem("AniList/rewatched", self.rewatched_var.get())
         ls_settings.setItem("AniList/completed", self.completed_var.get())
-        # Access the Bottom_Frame instance using the global manager
         bottom_frame_instance = GlobalManager.get_bottom_frame_instance()
         if bottom_frame_instance:
             bottom_frame_instance.update_settings()
@@ -82,12 +88,11 @@ class SettingsWindow(ctk.CTkToplevel):
 
     def load_initial_settings(self):
         print("load init")
-        # Load AniList settings
         try:
-            self.watching_var.set(ls_settings.getItem("AniList/watching"))
-            self.planned_var.set(ls_settings.getItem("AniList/planned"))
-            self.rewatched_var.set(ls_settings.getItem("AniList/rewatched"))
-            self.completed_var.set(ls_settings.getItem("AniList/completed"))
+            self.watching_var.set(ls_settings_init.getItem("AniList/watching"))
+            self.planned_var.set(ls_settings_init.getItem("AniList/planned"))
+            self.rewatched_var.set(ls_settings_init.getItem("AniList/rewatched"))
+            self.completed_var.set(ls_settings_init.getItem("AniList/completed"))
         except:
             print("Not Logged in AniList")
 
@@ -100,3 +105,10 @@ class SettingsWindow(ctk.CTkToplevel):
         self.load_initial_settings()
         print("Cancel button clicked: Settings reverted.")
         self.destroy()
+
+    def update_settings(self):
+        print("Reloading settings window...")
+        # Destroy current widgets and rebuild the window
+        for widget in self.winfo_children():
+            widget.destroy()
+        self.build_window()

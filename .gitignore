@@ -2,3 +2,6 @@
 __pycache__
 .env
 .com
+.dist
+.build
+.vscode
