@@ -1,5 +1,4 @@
 from localStoragePy import localStoragePy
-
 from sub.gui.Settings.buttons.buttons import *
 from sub.gui.Settings.service_frame.advanced import create_advanced_frame
 from sub.gui.Settings.service_frame.application import create_application_frame
@@ -28,27 +27,32 @@ class SettingsWindow(ctk.CTkToplevel):
         self.completed_var = ctk.BooleanVar()
 
         self.title("Settings")
-        self.geometry("600x500")
+        self.geometry("600x505")
+        self.resizable(False, False)
         self.grab_set()
 
         # Call the method to build the window
         self.build_window()
 
     def build_window(self):
-        # Main Frame
+        # Clear the current grid layout if it exists
+        for widget in self.winfo_children():
+            widget.grid_forget()
+
+        # Main Frame for content and categories
         main_frame = ctk.CTkFrame(self)
-        main_frame.pack(fill="both", expand=True, padx=10, pady=10)
+        main_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=(0, 5))
 
         # Left Frame for categories
-        categories_frame = ctk.CTkFrame(main_frame, width=50)
-        categories_frame.pack(side="left", fill="y", padx=(0, 10))
+        categories_frame = ctk.CTkFrame(main_frame, width=200)
+        categories_frame.grid(row=0, column=0, sticky="ns", padx=(0, 10), pady=(18, 0))
 
         self.buttons = []
         create_category_buttons(self, categories_frame)
 
         # Right Frame for content
         self.content_frame = ctk.CTkFrame(main_frame)
-        self.content_frame.pack(side="right", fill="both", expand=True)
+        self.content_frame.grid(row=0, column=1, sticky="nsew")
 
         # Initialize frames dictionary
         self.frames = {}
@@ -67,11 +71,24 @@ class SettingsWindow(ctk.CTkToplevel):
         show_frame(self, "Services")
         self.load_initial_settings()
 
+        # Configure row and column weights for main_frame
+        main_frame.grid_rowconfigure(0, weight=1)  # Content area should expand
+        main_frame.grid_columnconfigure(0, weight=0)  # Fixed width for categories_frame
+        main_frame.grid_columnconfigure(1, weight=1)  # Expandable content_frame
+
         # Button Frame for OK and Cancel buttons
         button_frame = ctk.CTkFrame(self)
-        button_frame.pack(side="bottom", padx=10, pady=(0, 5), anchor="e")
+        button_frame.grid(row=1, column=0, sticky="ew", padx=10, pady=(0, 5))
+
         ctk.CTkButton(button_frame, text="OK", command=self.ok_button).pack(side="right", padx=10, pady=2)
         ctk.CTkButton(button_frame, text="Cancel", command=self.cancel_button).pack(side="right", padx=10, pady=2)
+
+        # Ensure button_frame spans all columns and adjust its weight
+        self.grid_rowconfigure(0, weight=1)  # Allow main content area to expand
+        self.grid_rowconfigure(1, weight=0)  # Keep button_frame at the bottom
+
+        # Configure column weight to ensure button_frame spans the entire width
+        self.grid_columnconfigure(0, weight=1)
 
     def save_settings(self):
         print("save")

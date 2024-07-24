@@ -46,7 +46,7 @@ class Top_Frame(CTk):
             self.avatar = CTkLabel(self.avatar_frame, 150, 150, 0, "transparent",
                                    image=helper.load_file("img/AniList.png", (125, 125)), text="", )
             self.avatar.grid(row=0, column=0, padx=10)
-            self.username_label = CTkLabel(self.avatar_frame, text="Reopen the Window after Settings Login",
+            self.username_label = CTkLabel(self.avatar_frame, text="Ue Settings for Login",
                                            fg_color=grey, padx=10,
                                            font=CTkFont(size=16, weight="bold"))
             self.username_label.grid(row=1, column=0, padx=10)
