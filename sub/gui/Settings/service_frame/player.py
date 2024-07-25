@@ -3,6 +3,7 @@ import json
 import customtkinter as ctk
 from customtkinter import filedialog
 from localStoragePy import localStoragePy
+import subprocess
 
 from sub.modules.filepath import Player
 
@@ -17,10 +18,24 @@ def create_player_frame(self):
     mvp_player_tab = notebook.add("MPV Player")
     mpv_player(self, mvp_player_tab)
 
+
 # TODO: Add more Video Player Options
+def play_test_video():
+    ls_settings = localStoragePy("Settings", "json")
+    playerloc = ls_settings.getItem("mpv")
+    print(playerloc)
+    youtube_url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    print(playerloc + " " + youtube_url)
+    try:
+        subprocess.run([playerloc, youtube_url])
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 
 def mpv_player(self, tab):
     self.btn = ctk.CTkButton(tab, text="choose player", anchor="w", command=set_mpv_player)
+    self.btn.pack(fill="x", pady=5, padx=7)
+    self.btn = ctk.CTkButton(tab, text="play test video", anchor="w", command=play_test_video)
     self.btn.pack(fill="x", pady=5, padx=7)
 
 
