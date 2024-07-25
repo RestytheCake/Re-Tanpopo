@@ -9,6 +9,7 @@ anilist_info = MEDIA_INFO_DIR / 'anilist.json'
 kitsu_info = MEDIA_INFO_DIR / 'kitsu.json'
 myanimelist_info = MEDIA_INFO_DIR / 'myanimelist.json'
 series_locations = TANPOPO_DIR / 'series_locations.json'
+Player = MEDIA_INFO_DIR / 'player.json'
 
 
 def ensure_files_exist():
@@ -20,7 +21,8 @@ def ensure_files_exist():
         anilist_info: {},
         kitsu_info: {},
         myanimelist_info: {},
-        series_locations: {}
+        series_locations: {},
+        Player: {}
     }
 
     # Ensure the main directory and media_info directory exist
@@ -57,7 +59,8 @@ def remove_files_and_directories():
         anilist_info,
         kitsu_info,
         myanimelist_info,
-        series_locations
+        series_locations,
+        Player
     ]
 
     # Remove files
