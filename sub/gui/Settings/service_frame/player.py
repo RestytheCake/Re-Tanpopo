@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from customtkinter import filedialog
 
 
 def create_player_frame(self):
@@ -16,3 +17,13 @@ def create_player_frame(self):
 
 def set_player():
     print("selecting video player")
+    selectfile()
+    
+    
+def selectfile():
+        # Open the file dialog and filter for exe files
+        playerloc = filedialog.askopenfilename(
+            title="Select an EXE file",
+            filetypes=[("Executable files", "*.exe")]
+        )
+        print(playerloc)
