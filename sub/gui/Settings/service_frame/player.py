@@ -17,6 +17,7 @@ def create_player_frame(self):
     mvp_player_tab = notebook.add("MPV Player")
     mpv_player(self, mvp_player_tab)
 
+# TODO: Add more Video Player Options
 
 def mpv_player(self, tab):
     self.btn = ctk.CTkButton(tab, text="choose player", anchor="w", command=set_mpv_player)

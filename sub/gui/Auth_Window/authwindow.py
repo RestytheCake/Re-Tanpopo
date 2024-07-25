@@ -97,6 +97,7 @@ class ToplevelWindow(customtkinter.CTkToplevel):
         #self.after(201, lambda: self.iconbitmap('favicon.ico'))
         self.geometry("200x140")
         self.minsize(200, 140)
+        # TODO: Somehow Fix the Window Focus, because window gets in background
         self.attributes('-topmost', True)
         #self.grab_set()
 

@@ -7,6 +7,7 @@ def create_credits_frame(self):
     notebook = ctk.CTkTabview(credits_frame)
     notebook.pack(fill="both", expand=True)
 
+    # TODO: Update the names and styles
     # Credits Tab
     credits_tab = notebook.add("Credits")
     ctk.CTkLabel(credits_tab, text="Owner", font=ctk.CTkFont(size=16)).pack(anchor="w")

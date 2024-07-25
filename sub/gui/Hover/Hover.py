@@ -2,6 +2,7 @@ import tkinter as tk
 from customtkinter import CTkLabel, CTkToplevel
 
 
+# TODO: In General, Rewrite whole HoverLabel class to use a Label instead of a toplevelwindow which bugs
 class HoverLabel(CTkLabel):
     def __init__(self, *args, anime_name="", **kwargs):
         super().__init__(*args, **kwargs)
