@@ -99,6 +99,7 @@ class ToplevelWindow(customtkinter.CTkToplevel):
         self.minsize(200, 140)
         # TODO: Somehow Fix the Window Focus, because window gets in background
         self.attributes('-topmost', True)
+
         #self.grab_set()
 
         # ---- Check Auth File and Open Browser
