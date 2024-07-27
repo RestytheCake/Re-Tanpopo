@@ -1,0 +1,8 @@
+
+    # We should migrate the App to offline support / meaning the img are getting stored locally (base64 or just
+    # download in folder) and then load them
+
+   # Add more Async support for Avatar Image loading (useless if offline support is added)
+
+
+

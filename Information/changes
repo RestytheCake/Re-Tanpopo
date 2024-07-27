@@ -1,0 +1,15 @@
+->  Changed folder name "Sub" to "Main" because it contains all the code for the Interface, everything else is IDE/Editor
+    or git, readme etc.
+
+-> Moved Img folder to Main because its a folder needed for Interface
+
+-> Added Connection Timeout Exception to load the AniLis default Avatar Image when no Connection.
+   Script still waits for timeout connection because of no async support
+   # In img.png you can find the offline view, avatar is already changed to Default anilist image
+
+-> Changed modules/filepath.py to path.py and added project root and img folder for easy import
+
+-> Added a function in service_frame/template which creates the notebook_frame (see notebook.img), you just need to add
+    the "notebook = create_notebook_frame(self, self.content_frame, name)" line at the top of the def() then call the
+    "frame = notebook.add('name')", which is a frame, in which you can add anything you want, like CTkFrame or
+    CTkLabels, you can add multiple like "frame = notebook.add('name 2')" for a second page (see notebook_page.img)
