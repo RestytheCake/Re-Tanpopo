@@ -4,6 +4,7 @@ import customtkinter as ctk
 from localStoragePy import localStoragePy
 from main.modules.path import anilist_info
 from main.modules.globalmanager import GlobalManager
+from main.modules.refresher import refresh_global
 
 
 def create_clear_frame(self):
@@ -31,20 +32,7 @@ def clear_all():
     ls.clear()
     with open(anilist_info, 'w') as file:
         json.dump({}, file)
-
-    bottom_frame_instance = GlobalManager.get_bottom_frame_instance()
-    top_frame_instance = GlobalManager.get_top_frame_instance()
-    settings_instance = GlobalManager.get_settings_window_instance()
-
-    if bottom_frame_instance:
-        bottom_frame_instance.update_settings()
-    if top_frame_instance:
-        top_frame_instance.update_settings()
-    if settings_instance:
-        settings_instance.update_settings()
-    else:
-        print("Frame instance is not initialized")
-
+    refresh_global()
 
     print("Done!!!")
 

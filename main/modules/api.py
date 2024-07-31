@@ -8,6 +8,7 @@ import re
 
 from main.modules.path import anilist_info
 from main.modules.globalmanager import GlobalManager
+from main.modules.refresher import refresh_global
 
 
 # Function to clear the JSON file
@@ -227,17 +228,7 @@ def Load_API():
 
             # Store anime info in JSON file
             store_anime_info(formatted_info, anilist_info)
-            bottom_frame_instance = GlobalManager.get_bottom_frame_instance()
-            top_frame_instance = GlobalManager.get_top_frame_instance()
-            settings_instance = GlobalManager.get_settings_window_instance()
-            if bottom_frame_instance:
-                bottom_frame_instance.update_settings()
-            if top_frame_instance:
-                top_frame_instance.update_settings()
-            if settings_instance:
-                settings_instance.update_settings()
-            else:
-                print("Frame instance is not initialized")
+            refresh_global()
 
             print("AniList refresh successful.")
         else:

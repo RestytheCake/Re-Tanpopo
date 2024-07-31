@@ -5,3 +5,4 @@ localStoragePy
 aiohttp
 pypresence
 yt-dlp
+CTkListbox

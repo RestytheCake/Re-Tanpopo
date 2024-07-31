@@ -1,9 +1,8 @@
 import threading
 from customtkinter import CTk, CTkLabel, CTkFont, CTkFrame, CTkScrollableFrame
 from localStoragePy import localStoragePy
-from main.modules import helper, loadcovers
+from main.modules import helper, loaddata
 from main.modules.colors import grey
-
 
 ls = localStoragePy("Tanpopo Rewrite", "json")
 print(f"Initialized localStoragePy for Tanpopo Rewrite: {ls}")
@@ -18,7 +17,7 @@ class Bottom_Frame:
         self.video_frame.grid(row=1, column=0, sticky="nsew")
         print("Configured video_frame grid.")
 
-        self.video_frame.rowconfigure(0, minsize=355)  # Set minimum size for rows
+        self.video_frame.rowconfigure(0, minsize=400)  # Set minimum size for rows
         print("Configured video_frame row configuration with minsize=355.")
 
         self.video_frame.columnconfigure(0, weight=1)  # Allow column to expand
@@ -77,12 +76,10 @@ class Bottom_Frame:
         print(f"Created and placed frame_name in grid at row: {self.row_counter}")
 
         # Set row configurations for frame_name
-        frame_name.grid_rowconfigure(0, weight=0)  # Row with text label should not expand
+        frame_name.grid_rowconfigure(0, weight=1)  # Row with text label should not expand
         print("Configured grid_rowconfigure for frame_name row 0 with weight=0.")
-
         frame_name.grid_rowconfigure(1, weight=1)  # Row with scrollable frame should expand
         print("Configured grid_rowconfigure for frame_name row 1 with weight=1.")
-
         frame_name.grid_columnconfigure(0, weight=1)  # Ensure the frame content uses available width
         print("Configured grid_columnconfigure for frame_name column 0 with weight=1.")
 
@@ -92,7 +89,7 @@ class Bottom_Frame:
         print(f"Created and placed text_label in frame_name with text: {text}")
 
         # Create a scrollable frame within this frame
-        scrollable_frame = CTkScrollableFrame(master=frame_name, fg_color=grey, orientation="horizontal", height=120)
+        scrollable_frame = CTkScrollableFrame(master=frame_name, fg_color=grey, orientation="horizontal", height=157)
         scrollable_frame.grid(row=1, column=0, padx=0, pady=(0, 5), sticky="ew")
         print("Created and placed scrollable_frame in frame_name.")
 
@@ -100,11 +97,11 @@ class Bottom_Frame:
         anime_shimmer_labels = []
         print("Initialized anime_shimmer_labels list.")
 
-        cover_images = loadcovers.print_cover_images(watchtype=text)
+        cover_images = loaddata.print_cover_images(watchtype=text)
         print(f"Loaded cover images for watchtype '{text}': {cover_images}")
 
         for i in range(len(cover_images)):
-            shimmer_label = helper.create_shimmer_label(scrollable_frame, 80, 115)
+            shimmer_label = helper.create_shimmer_label(scrollable_frame, 100, 150)
             shimmer_label.grid(row=0, column=i, padx=10)
             anime_shimmer_labels.append(shimmer_label)
             print(f"Created shimmer_label and placed in grid at column {i}.")
@@ -112,7 +109,7 @@ class Bottom_Frame:
         # Start a thread to update the UI with images
         threading.Thread(
             target=helper.update_ui_with_images,
-            args=(cover_images, scrollable_frame, (80, 115), anime_shimmer_labels, text)
+            args=(scrollable_frame, (90, 115), anime_shimmer_labels, text)
         ).start()
         print(f"Started thread to update UI with images for {text}.")
 

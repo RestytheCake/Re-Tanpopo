@@ -1,6 +1,7 @@
 from customtkinter import CTk
 
 from main.gui.AnimeViewer import AnimeViewer
+from main.modules.globalmanager import GlobalManager
 from main.modules.path import ensure_files_exist
 from main.modules.rpc import DiscordRPC
 
@@ -11,5 +12,7 @@ if __name__ == "__main__":
     print("Loaded RPC")
     root = CTk()
     app = AnimeViewer(root)
-    root.geometry("800x600")
+    AnimeViewer_instance = AnimeViewer(root)
+    GlobalManager.set_animeviewer_instance(AnimeViewer_instance)
+    root.geometry("900x650")
     root.mainloop()
