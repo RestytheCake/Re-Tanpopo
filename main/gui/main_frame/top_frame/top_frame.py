@@ -49,7 +49,7 @@ class Top_Frame(CTk):
         if un is None:
             print("Raise Error: Not Logged in or Couldn't Load Avatar Image")
             self.avatar = CTkLabel(self.avatar_frame, 150, 150, 0, "transparent",
-                                   image=helper.load_file("img/AniList.png", (125, 125)), text="", )
+                                   image=helper.load_file(IMG_DIR / "AniList.png", (125, 125)), text="", )
             self.avatar.grid(row=0, column=0, padx=10)
             self.username_label = CTkLabel(self.avatar_frame, text="Use Settings for Login",
                                            fg_color=grey, padx=10,

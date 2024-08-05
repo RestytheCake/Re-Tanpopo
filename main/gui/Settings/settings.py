@@ -30,7 +30,8 @@ class SettingsWindow(ctk.CTkToplevel):
         self.title("Settings")
         self.geometry("600x505")
         self.resizable(False, False)
-        self.grab_set()
+        # TODO: fix needed for Linux
+        #self.grab_set()
 
         # Call the method to build the window
         self.build_window()
