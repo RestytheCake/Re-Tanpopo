@@ -39,11 +39,14 @@ async def load_image_async(url, size):
             print(f"Error loading image from {url}: {e}")
             return None
 
+
 # Function to replace shimmer label with "Failed loading" label
 def handle_image_loading_error(frame, shimmer_label):
-    error_label = ctk.CTkLabel(master=frame, text="Failed loading", font=ctk.CTkFont(size=16, weight="bold"), text_color="white", fg_color="black")
+    error_label = ctk.CTkLabel(master=frame, text="Failed loading", font=ctk.CTkFont(size=16, weight="bold"),
+                               text_color="white", fg_color="black")
     error_label.grid(row=shimmer_label.grid_info()['row'], column=shimmer_label.grid_info()['column'], padx=10, pady=10)
     shimmer_label.destroy()
+
 
 # Function to update the UI with loaded images
 def update_ui_with_images(frame, size, shimmer_labels, watchtype):
@@ -102,7 +105,9 @@ def update_ui_with_images(frame, size, shimmer_labels, watchtype):
                 text_label.pack()
 
                 # Add click event to open details page
-                img_label.bind("<Button-1>", lambda e, t=anime_title, d=anime_description, i=img, ai=anime_id: change_page_to_detail(t, d, i, ai))
+                img_label.bind("<Button-1>",
+                               lambda e, t=anime_title, d=anime_description, i=img, ai=anime_id: change_page_to_detail(
+                                   t, d, i, ai))
 
                 shimmer_label.destroy()  # Remove the shimmer label
                 print(f"Image loaded and HoverLabel created for: {anime_title}")
@@ -110,6 +115,7 @@ def update_ui_with_images(frame, size, shimmer_labels, watchtype):
                 handle_image_loading_error(frame, shimmer_label)
 
     asyncio.run(load_images())
+
 
 # Create shimmer effect label
 def create_shimmer_label(master, width, height):

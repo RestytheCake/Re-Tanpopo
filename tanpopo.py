@@ -1,6 +1,6 @@
 from main.modules.rpc import DiscordRPC
 
-Debug = False
+Debug = True
 
 
 def main():
@@ -9,14 +9,7 @@ def main():
     else:
         DiscordRPC()
         print("Loaded RPC")
-        pip_check()
-
-
-def pip_check():
-    from main.modules.pip import check_and_install_requirements
-    from main.modules.path import REQUIREMENTS
-    check_and_install_requirements(REQUIREMENTS)
-    run()
+        run()
 
 
 def run():
