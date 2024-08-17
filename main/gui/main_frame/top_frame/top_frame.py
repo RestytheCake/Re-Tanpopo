@@ -11,9 +11,8 @@ from main.modules.globalmanager import GlobalManager
 from main.modules.path import get_project_root
 
 
-class Top_Frame(CTk):
-    def __init__(self, top_frame, **kwargs):
-        super().__init__(**kwargs)
+class Top_Frame:
+    def __init__(self, top_frame):
 
         self.button_frame = None
         self.setting_button = None
