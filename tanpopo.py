@@ -1,6 +1,6 @@
 from main.modules.rpc import DiscordRPC
 
-Debug = True
+Debug = False
 
 
 def main():
