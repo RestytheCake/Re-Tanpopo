@@ -27,9 +27,7 @@ def run():
     ensure_files_exist()
     print("Checked File Status")
     root = CTk()
-    app = AnimeViewer(root)
     AnimeViewer_instance = AnimeViewer(root)
-    GlobalManager.set_animeviewer_instance(AnimeViewer_instance)
     root.geometry("900x650")
     root.mainloop()
 
