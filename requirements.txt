@@ -6,3 +6,5 @@ aiohttp
 pypresence
 yt-dlp
 CTkListbox
+tk
+platformdirs

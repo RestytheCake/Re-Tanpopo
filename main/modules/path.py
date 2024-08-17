@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-import shutil
+from platformdirs import user_config_dir
 
 
 def get_project_root() -> Path:
@@ -8,7 +8,7 @@ def get_project_root() -> Path:
 
 
 # User Data Path
-TANPOPO_DIR = Path.home() / 'AppData/Roaming/Tanpopo'
+TANPOPO_DIR = Path(user_config_dir("Tanpopo"))
 MEDIA_INFO_DIR = TANPOPO_DIR / 'media_info'
 anilist_info = MEDIA_INFO_DIR / 'anilist.json'
 kitsu_info = MEDIA_INFO_DIR / 'kitsu.json'
@@ -18,6 +18,7 @@ Player = MEDIA_INFO_DIR / 'player.json'
 
 # Folder Paths
 IMG_DIR = get_project_root() / "main" / "img"
+REQUIREMENTS = get_project_root() / "main" / "requirements.txt"
 
 
 def ensure_files_exist():
@@ -55,7 +56,6 @@ def ensure_files_exist():
                 # Create an empty file with default content
                 with open(file_path, 'w') as file:
                     json.dump(default_content, file)
-                    file.close()
                 print(f"Created file: {file_path}")
             except Exception as e:
                 print(f"Error creating file {file_path}: {e}")
