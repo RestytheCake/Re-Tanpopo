@@ -1,3 +1,4 @@
+import tkinter as tk
 from localStoragePy import localStoragePy
 from main.gui.Settings.buttons.buttons import *
 from main.gui.Settings.service_frame.advanced import create_advanced_frame
@@ -18,7 +19,7 @@ ctk.set_default_color_theme("blue")
 ls_settings_init = localStoragePy("Settings", "json")
 
 
-class SettingsWindow(ctk.CTkToplevel):
+class SettingsWindow(tk.Toplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
