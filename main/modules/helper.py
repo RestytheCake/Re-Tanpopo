@@ -52,14 +52,10 @@ def handle_image_loading_error(frame, shimmer_label):
 def update_ui_with_images(frame, size, shimmer_labels, watchtype):
     async def load_images():
         anime_data = loaddata.get_anime_data(watchtype=watchtype)  # Retrieve all anime data
-        print("DATA")
-        print(anime_data)
-        anime_id = anime_data["ID"]
-        print("Print Anime ID")
-        print(anime_id)
         cover_images = anime_data["cover_images"]
         anime_titles = anime_data["titles"]
         anime_descriptions = anime_data["descriptions"]
+        anime_ids = anime_data["ID"]
 
         for i, (url, shimmer_label) in enumerate(zip(cover_images, shimmer_labels)):
             img = await load_image_async(url, size)
@@ -67,6 +63,7 @@ def update_ui_with_images(frame, size, shimmer_labels, watchtype):
             if image:  # Check if image loading was successful
                 anime_title = anime_titles[i]  # Get the corresponding anime title
                 anime_description = anime_descriptions[i]  # Get the corresponding anime description
+                anime_id = anime_ids[i]  # Get the corresponding anime ID
 
                 double_frame = CTkFrame(frame, fg_color=darkgrey)
                 double_frame.grid(row=0, column=i, padx=5, sticky="n")

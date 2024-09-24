@@ -14,6 +14,11 @@ from main.modules.globalmanager import GlobalManager
 class Top_Frame(CTkFrame):
     def __init__(self, master=None):
         super().__init__(master, fg_color=grey)
+        self.avatar = None
+        self.username_label = None
+        self.avatar_frame = None
+        self.button_frame = None
+        self.setting_button = None
         self.grid(row=0, column=0, sticky="new")
         self.columnconfigure(0, weight=1, minsize=325)
         self.columnconfigure(1, weight=1, minsize=300)
@@ -44,7 +49,7 @@ class Top_Frame(CTkFrame):
     def avatar_frame_func(self):
         """Create and configure the avatar frame."""
         self.avatar_frame = CTkFrame(self, fg_color=grey)
-        self.avatar_frame.grid(row=0, column=0, pady=15, padx=15, sticky="nw")
+        self.avatar_frame.grid(row=0, column=0, pady=10, padx=15, sticky="nw")
 
         ls = localStoragePy("Tanpopo Rewrite", "json")
         username = ls.getItem("username")
@@ -75,7 +80,7 @@ class Top_Frame(CTkFrame):
             fg_color=grey,
             font=CTkFont(size=16, weight="bold")
         )
-        self.username_label.grid(row=1, column=0, padx=10)
+        self.username_label.grid(row=1, column=0, padx=10, pady=0)
 
     def display_user_avatar(self, username):
         """Display user's avatar and greeting."""
@@ -101,7 +106,7 @@ class Top_Frame(CTkFrame):
             font=CTkFont(size=16, weight="bold")
         )
 
-        self.username_label.grid(row=1, column=0, padx=10)
+        self.username_label.grid(row=1, column=0, padx=10, pady=0)
 
     def display_offline_mode(self):
         """Display offline mode message."""
@@ -113,7 +118,7 @@ class Top_Frame(CTkFrame):
             font=CTkFont(size=8, slant="italic")
         )
 
-        offline_label.grid(row=2, column=0, padx=10)
+        offline_label.grid(row=2, column=0, padx=10, pady=0)
 
     def init(self):
         """Initialize the frame components."""
