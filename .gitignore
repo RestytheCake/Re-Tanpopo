@@ -1,7 +1,8 @@
-.idea
-__pycache__
-.env
-.com
-.dist
-.build
-.vscode
+/.idea/
+/__pycache__/
+/dist/
+/build/
+/.vscode/
+/com/
+/.venv/
+*.pyc
