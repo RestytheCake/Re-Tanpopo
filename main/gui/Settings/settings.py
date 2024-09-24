@@ -23,6 +23,9 @@ class SettingsWindow(tk.Toplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.frames = None
+        self.content_frame = None
+        self.buttons = None
         self.rewatched_var = ctk.BooleanVar()
         self.planned_var = ctk.BooleanVar()
         self.watching_var = ctk.BooleanVar()

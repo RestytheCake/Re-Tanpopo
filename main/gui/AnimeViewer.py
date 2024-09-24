@@ -44,7 +44,7 @@ class AnimeViewer:
         """Initialize the top frame."""
         top_frame_instance = Top_Frame(self.main_frame)
         GlobalManager.set_top_frame_instance(top_frame_instance)
-        top_frame_instance.grid(row=0, column=0, sticky="ew", padx=10, pady=(10, 5))
+        top_frame_instance.grid(row=0, column=0, sticky="ew", padx=10)
 
     def init_bottom_frame(self):
         """Initialize the bottom frame."""

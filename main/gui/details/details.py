@@ -11,6 +11,14 @@ from main.modules.globalmanager import GlobalManager
 from main.modules.path import Player, series_locations
 
 
+def back_to_main():
+    animeviewer_instance = GlobalManager.get_animeviewer_instance()
+    if animeviewer_instance:
+        animeviewer_instance.reload()
+    else:
+        print("AnimeViewer instance is not initialized")
+
+
 class AnimeDetails(ctk.CTkFrame):
     IMAGE_SIZE = (200, 150)
     DESCRIPTION_WRAP_LENGTH = 300
@@ -97,7 +105,7 @@ class AnimeDetails(ctk.CTkFrame):
         self.top_right_frame.grid(row=0, column=0, sticky="nsew", padx=self.PADDING, pady=(0, 5))
 
         back_button = ctk.CTkButton(
-            self.top_right_frame, text="Back to Main", command=self.back_to_main, corner_radius=10
+            self.top_right_frame, text="Back to Main", command=back_to_main, corner_radius=10
         )
         back_button.grid(row=0, column=0, pady=self.PADDING, padx=self.PADDING, sticky="nw")
 
@@ -221,9 +229,8 @@ class AnimeDetails(ctk.CTkFrame):
             self.description_frame.grid()
         self.description_visible = not self.description_visible
 
-    def back_to_main(self):
-        animeviewer_instance = GlobalManager.get_animeviewer_instance()
-        if animeviewer_instance:
-            animeviewer_instance.reload()
-        else:
-            print("AnimeViewer instance is not initialized")
+
+import customtkinter as ctk
+import tkinter as tk
+from tkinter import filedialog
+
