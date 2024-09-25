@@ -27,6 +27,10 @@ class AnimeDetails(ctk.CTkFrame):
 
     def __init__(self, frame, title=None, description=None, image=None, anime_id=None, **kwargs):
         super().__init__(frame, **kwargs)
+        self.data = None
+        self.episodes = []
+        self.episode_pattern = None
+        self.folder_path = None
         self.title = title
         self.description = description
         self.image = ctk.CTkImage(light_image=image, dark_image=image, size=self.IMAGE_SIZE)
@@ -159,32 +163,31 @@ class AnimeDetails(ctk.CTkFrame):
     def read_file_location(self, anime_id):
         try:
             with open(series_locations, "r") as file:
-                data = json.load(file)
-                return data.get(str(anime_id))
+                self.data = json.load(file)
+                return self.data.get(str(anime_id))
         except (FileNotFoundError, json.JSONDecodeError):
             print("series_locations.json not found or empty.")
         return None
 
     def get_episodes_from_directory(self, directory):
         # Updated regex to ignore numbers inside square brackets
-        episode_pattern = re.compile(r'(\d{1,3})(?=\s*[^a-zA-Z0-9]*\.mkv)')
-        episodes = []
+        self.episode_pattern = re.compile(r'(\d{1,3})(?=\s*[^a-zA-Z0-9]*\.mkv)')
 
         for filename in os.listdir(directory):
             # Remove any content inside square brackets before searching for episode numbers
-            cleaned_filename = re.sub(r'\[.*?\]', '', filename)
+            cleaned_filename = re.sub(r'\[.*?]', '', filename)
             print(f"Original filename: {filename}, Cleaned filename: {cleaned_filename}")  # Debugging statement
 
-            match = episode_pattern.search(cleaned_filename)
+            match = self.episode_pattern.search(cleaned_filename)
             if match:
                 episode_number = match.group(1)
-                episodes.append({
+                self.episodes.append({
                     'display': f"Episode {int(episode_number)}",
                     'file': os.path.join(directory, filename)
                 })
 
-        episodes.sort(key=lambda x: int(re.search(r'\d+', x['display']).group()))
-        return episodes
+        self.episodes.sort(key=lambda x: int(re.search(r'\d+', x['display']).group()))
+        return self.episodes
 
     def play_selected_episode(self,event):
         selection = self.episode_list.curselection()
@@ -216,10 +219,34 @@ class AnimeDetails(ctk.CTkFrame):
             self.description_frame.grid()
             self.description_visible = True
 
+
+    #TODO  Fix Folder Selection to write the series_locations.json file
     def set_folder_location(self):
         # This method can be implemented to set folder location for the anime
-        folder_path = filedialog.askdirectory(title="Select Folder")
-        if folder_path:
+        self.folder_path = filedialog.askdirectory(title="Select Folder")
+        if self.folder_path:
             # Save or process the selected folder path as needed
-            print(f"Folder selected: {folder_path}")
+            print(f"Folder selected: {self.folder_path}")
+            # Read existing data from JSON file
+            with open(series_locations, 'r') as file:
+                data = json.load(file)
+
+            # Ensure data is a list
+            if not isinstance(data, list):
+                raise Exception("JSON data is not a list")
+
+            # Check if ID exists and update or append
+            updated = False
+            for item in data:
+                if self.anime_id in item:
+                    item[0] = self.anime_id
+                    updated = True
+                    break
+
+            if not updated:
+                data.append({self.anime_id: self.folder_path})
+
+            # Write back to JSON file
+            with open(series_locations, 'w') as file:
+                json.dump(data, file, indent=4)
 
