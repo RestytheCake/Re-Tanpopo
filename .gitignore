@@ -6,3 +6,4 @@
 /com/
 /.venv/
 *.pyc
+wordsearch.py
