@@ -20,10 +20,14 @@ Player = MEDIA_INFO_DIR / 'player.json'
 IMG_DIR = get_project_root() / "main" / "img"
 REQUIREMENTS = get_project_root() / "main" / "requirements.txt"
 
+# file formats list
+
+format_list = MEDIA_INFO_DIR / 'formats.json'
+
 
 def ensure_files_exist():
     """Ensure that all necessary directories and files exist. Create them if they don't."""
-    print(f"Current working directory: {Path.home()}")
+    print(f"Current workiang directory: {Path.home()}")
 
     # Define the files to check and their default content
     files = {

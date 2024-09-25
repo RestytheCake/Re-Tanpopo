@@ -25,9 +25,6 @@ class AnimeDetails(ctk.CTkFrame):
     PADDING = 10
     BORDER_WIDTH = 2
 
-    # Define the player variable
-    Player = "path/to/media/player"  # Replace with the actual path or command
-
     def __init__(self, frame, title=None, description=None, image=None, anime_id=None, **kwargs):
         super().__init__(frame, **kwargs)
         self.title = title
@@ -169,11 +166,16 @@ class AnimeDetails(ctk.CTkFrame):
         return None
 
     def get_episodes_from_directory(self, directory):
-        episode_pattern = re.compile(r'[Ee][Pp]?(\d{1,3})')
+        # Updated regex to ignore numbers inside square brackets
+        episode_pattern = re.compile(r'(\d{1,3})(?=\s*[^a-zA-Z0-9]*\.mkv)')
         episodes = []
 
         for filename in os.listdir(directory):
-            match = episode_pattern.search(filename)
+            # Remove any content inside square brackets before searching for episode numbers
+            cleaned_filename = re.sub(r'\[.*?\]', '', filename)
+            print(f"Original filename: {filename}, Cleaned filename: {cleaned_filename}")  # Debugging statement
+
+            match = episode_pattern.search(cleaned_filename)
             if match:
                 episode_number = match.group(1)
                 episodes.append({
@@ -184,12 +186,14 @@ class AnimeDetails(ctk.CTkFrame):
         episodes.sort(key=lambda x: int(re.search(r'\d+', x['display']).group()))
         return episodes
 
-    def play_selected_episode(self, event):
+    def play_selected_episode(self,event):
         selection = self.episode_list.curselection()
         print(f"Selection: {selection}")  # Debugging statement
-        if selection:
-            index = selection
-            print(f"Selected index: {index}")  # Debugging statement
+
+        if selection:  # Check if selection is not empty
+            index = selection # Safe to access the first element now
+            # Continue with your logic to play the selected episode using the index
+            print(f"Selected index: {index}")  # For debugging
 
             # Check if index is within bounds of episode_files
             if 0 <= index < len(self.episode_files):
@@ -201,36 +205,21 @@ class AnimeDetails(ctk.CTkFrame):
                     data = json.load(file)
 
                 # Extract the value associated with the "mpv" key
-                player_path = data.get('mpv')
-
-                if player_path:
-                    print(f"MPV Path: {player_path}")
-                else:
-                    print("Key 'mpv' not found in the JSON file. The Player MPV was not set in the settings page")
-                subprocess.run([player_path, episode_path])
-            else:
-                print(f"Index {index} is out of range for episode files.")
-        else:
-            print("No selection detected.")
-
-    def set_folder_location(self):
-        folder_path = filedialog.askdirectory()
-        if folder_path:
-            with open(series_locations, "r+") as file:
-                data = json.load(file)
-                data[str(self.anime_id)] = folder_path
-                file.seek(0)
-                json.dump(data, file, indent=4)
+                player_executable = data.get("mpv")
+                subprocess.Popen([player_executable, episode_path])
 
     def toggle_description(self):
         if self.description_visible:
             self.description_frame.grid_remove()
+            self.description_visible = False
         else:
             self.description_frame.grid()
-        self.description_visible = not self.description_visible
+            self.description_visible = True
 
-
-import customtkinter as ctk
-import tkinter as tk
-from tkinter import filedialog
+    def set_folder_location(self):
+        # This method can be implemented to set folder location for the anime
+        folder_path = filedialog.askdirectory(title="Select Folder")
+        if folder_path:
+            # Save or process the selected folder path as needed
+            print(f"Folder selected: {folder_path}")
 

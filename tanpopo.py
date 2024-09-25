@@ -1,3 +1,8 @@
+import asyncio
+
+# Set event loop policy for Windows compatibility
+asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 def main():
     from customtkinter import CTk
     from main.gui.AnimeViewer import AnimeViewer
