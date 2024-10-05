@@ -9,7 +9,7 @@ import CTkListbox
 from PIL import Image
 from main.modules.globalmanager import GlobalManager
 from main.modules.path import Player, series_locations
-
+from main.modules.progress import Load_API
 
 def back_to_main():
     animeviewer_instance = GlobalManager.get_animeviewer_instance()
@@ -145,6 +145,7 @@ class AnimeDetails(ctk.CTkFrame):
         )
         self.description_label.grid(row=1, column=0, pady=5, sticky="w")
 
+
     def update_episode_list(self):
         if self.episode_list.size() > 0:
             self.episode_list.delete("all")
@@ -159,6 +160,7 @@ class AnimeDetails(ctk.CTkFrame):
             print(f"Episode files: {self.episode_files}")  # Debugging statement
         else:
             print("No directory found for the anime ID.")
+            #self.collectprogress()
 
     def read_file_location(self, anime_id):
         try:
@@ -220,33 +222,31 @@ class AnimeDetails(ctk.CTkFrame):
             self.description_visible = True
 
 
-    #TODO  Fix Folder Selection to write the series_locations.json file
     def set_folder_location(self):
-        # This method can be implemented to set folder location for the anime
+    # This method sets the folder location for the anime
         self.folder_path = filedialog.askdirectory(title="Select Folder")
         if self.folder_path:
             # Save or process the selected folder path as needed
             print(f"Folder selected: {self.folder_path}")
-            # Read existing data from JSON file
+        
+        # Read existing data from JSON file
+        try:
             with open(series_locations, 'r') as file:
-                data = json.load(file)
+                data = json.load(file)  # Load existing JSON data
+        except FileNotFoundError:
+            data = {}  # If the file doesn't exist, start with an empty dictionary
 
-            # Ensure data is a list
-            if not isinstance(data, list):
-                raise Exception("JSON data is not a list")
+        # Ensure data is a dictionary
+        if not isinstance(data, dict):
+            raise Exception("JSON data is not a dictionary")
 
-            # Check if ID exists and update or append
-            updated = False
-            for item in data:
-                if self.anime_id in item:
-                    item[0] = self.anime_id
-                    updated = True
-                    break
+        # Update or add the folder path for the given anime_id
+        data[self.anime_id] = self.folder_path
 
-            if not updated:
-                data.append({self.anime_id: self.folder_path})
+        # Write updated data back to the JSON file
+        with open(series_locations, 'w') as file:
+            json.dump(data, file, indent=4)
 
-            # Write back to JSON file
-            with open(series_locations, 'w') as file:
-                json.dump(data, file, indent=4)
+        print(f"Folder location saved for anime ID {self.anime_id}: {self.folder_path}")
 
+Load_API()
