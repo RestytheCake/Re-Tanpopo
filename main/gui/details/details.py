@@ -9,7 +9,7 @@ import CTkListbox
 from PIL import Image
 from main.modules.globalmanager import GlobalManager
 from main.modules.path import Player, series_locations
-
+from main.modules.progress import Load_API
 
 def back_to_main():
     animeviewer_instance = GlobalManager.get_animeviewer_instance()
@@ -145,6 +145,7 @@ class AnimeDetails(ctk.CTkFrame):
         )
         self.description_label.grid(row=1, column=0, pady=5, sticky="w")
 
+
     def update_episode_list(self):
         if self.episode_list.size() > 0:
             self.episode_list.delete("all")
@@ -159,6 +160,7 @@ class AnimeDetails(ctk.CTkFrame):
             print(f"Episode files: {self.episode_files}")  # Debugging statement
         else:
             print("No directory found for the anime ID.")
+            #self.collectprogress()
 
     def read_file_location(self, anime_id):
         try:
@@ -247,4 +249,4 @@ class AnimeDetails(ctk.CTkFrame):
 
         print(f"Folder location saved for anime ID {self.anime_id}: {self.folder_path}")
 
-
+Load_API()
