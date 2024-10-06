@@ -177,7 +177,7 @@ class AnimeDetails(ctk.CTkFrame):
 
         for filename in os.listdir(directory):
             # Remove any content inside square brackets before searching for episode numbers
-            cleaned_filename = re.sub(r'\[.*?]', '', filename)
+            cleaned_filename = re.sub(r'[\[\(].*?[\]\)]', '', filename)
             print(f"Original filename: {filename}, Cleaned filename: {cleaned_filename}")  # Debugging statement
 
             match = self.episode_pattern.search(cleaned_filename)
