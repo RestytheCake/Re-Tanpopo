@@ -18,5 +18,7 @@ def create_credits_frame(self, name="Credits"):
     ctk.CTkLabel(credits_tab, text="resty", font=ctk.CTkFont(size=13, weight="bold")).pack(anchor="w", padx=10)
     ctk.CTkLabel(credits_tab, text="Frenchy making Fixes", font=ctk.CTkFont(size=16)).pack(anchor="w")
     ctk.CTkLabel(credits_tab, text="Nixuge", font=ctk.CTkFont(size=13, weight="bold")).pack(anchor="w", padx=10)
+    ctk.CTkLabel(credits_tab, text="Icon", font=ctk.CTkFont(size=16)).pack(anchor="w")
+    ctk.CTkLabel(credits_tab, text="Bito", font=ctk.CTkFont(size=13, weight="bold")).pack(anchor="w", padx=10)
 
     print(f"Create Notebook for: {name}")
