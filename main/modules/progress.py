@@ -3,6 +3,8 @@ import time
 import json
 import requests
 from localStoragePy import localStoragePy
+from main.modules.path import progressjson
+
 
 # Function to fetch anime information from AniList, including total episodes and progress
 def fetch_anime_info_with_progress(anime_ids, access_token):
@@ -108,8 +110,8 @@ def get_media_list_collection(access_token, user_id):
     return current_shows, rewatched_shows, completed_shows, plan_to_watch_shows
 
 
-# Function to print progress and total episodes for each anime
-def print_anime_progress(media_list):
+# Function to print and write anime progress to progressjson
+def process_anime_progress(media_list, progress_data):
     for media_list_section in media_list['lists']:
         for entry in media_list_section['entries']:
             anime_id = entry['media']['id']
@@ -117,12 +119,20 @@ def print_anime_progress(media_list):
             episodes_watched = entry['progress']
             total_episodes = entry['media'].get('episodes')
 
-            # Check if the show has a total episode count
+            # Prepare the progress value
             if total_episodes:
-                print(f"{anime_id}: {episodes_watched}/{total_episodes} ({title_romaji})")
+                progress_value = f"{episodes_watched}/{total_episodes}"
             else:
-                # If ongoing with unknown total episodes, print progress/?
-                print(f"{anime_id}: {episodes_watched}/? ({title_romaji})")
+                progress_value = f"{episodes_watched}/?"
+
+            # Print the progress
+            print(f"{anime_id}: {progress_value} ({title_romaji})")
+
+            # Add data to progress_data dictionary
+            progress_data[anime_id] = {
+                'title': title_romaji,
+                'progress': progress_value  # Just save the progress like "12/12"
+            }
 
 
 def Load_API():
@@ -137,24 +147,30 @@ def Load_API():
 
     if access_token and user_id:
         current_shows, rewatched_shows, completed_shows, plan_to_watch_shows = get_media_list_collection(access_token, user_id)
-        
+
+        progress_data = {}
+
         if current_shows:
             print("Current shows:")
-            print_anime_progress(current_shows)
-        
+            process_anime_progress(current_shows, progress_data)
+
         if rewatched_shows:
             print("\nRewatching shows:")
-            print_anime_progress(rewatched_shows)
-        
+            process_anime_progress(rewatched_shows, progress_data)
+
         if completed_shows:
             print("\nCompleted shows:")
-            print_anime_progress(completed_shows)
-        
+            process_anime_progress(completed_shows, progress_data)
+
         if plan_to_watch_shows:
             print("\nPlan to watch shows:")
-            print_anime_progress(plan_to_watch_shows)
+            process_anime_progress(plan_to_watch_shows, progress_data)
 
-        print("AniList progress display complete.")
+        # Write the progress_data dictionary to progressjson file
+        with open(progressjson, 'w', encoding='utf-8') as f:
+            json.dump(progress_data, f, ensure_ascii=False, indent=4)
+
+        print("AniList progress has been written to progressjson.")
     else:
         print("AniList access token or user ID not found.")
 

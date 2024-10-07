@@ -15,7 +15,7 @@ kitsu_info = MEDIA_INFO_DIR / 'kitsu.json'
 myanimelist_info = MEDIA_INFO_DIR / 'myanimelist.json'
 series_locations = TANPOPO_DIR / 'series_locations.json'
 Player = MEDIA_INFO_DIR / 'player.json'
-
+progressjson = MEDIA_INFO_DIR / 'progress.json'
 # Folder Paths
 IMG_DIR = get_project_root() / "main" / "img"
 REQUIREMENTS = get_project_root() / "main" / "requirements.txt"

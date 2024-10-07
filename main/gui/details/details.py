@@ -48,6 +48,7 @@ class AnimeDetails(ctk.CTkFrame):
 
         self._create_widgets()
         self.update_episode_list()
+        # self.search_progress()
 
     def _create_widgets(self):
         self._setup_layout()
@@ -177,7 +178,7 @@ class AnimeDetails(ctk.CTkFrame):
 
         for filename in os.listdir(directory):
             # Remove any content inside square brackets before searching for episode numbers
-            cleaned_filename = re.sub(r'\[.*?]', '', filename)
+            cleaned_filename = re.sub(r'[\[\(].*?[\]\)]', '', filename)
             print(f"Original filename: {filename}, Cleaned filename: {cleaned_filename}")  # Debugging statement
 
             match = self.episode_pattern.search(cleaned_filename)
@@ -249,4 +250,21 @@ class AnimeDetails(ctk.CTkFrame):
 
         print(f"Folder location saved for anime ID {self.anime_id}: {self.folder_path}")
 
-Load_API()
+"""    def search_progress(self):
+        progress_file = 'progress.json'  # Update with actual path if necessary
+    try:
+            with open(progress_file, 'r') as f:
+                progress_data = json.load(f)
+
+        anime_id_str = str(self.anime_id)
+        if anime_id_str in progress_data:
+            anime_info = progress_data[anime_id_str]
+            anime_title = anime_info.get('title', 'Unknown Title')
+            anime_progress = anime_info.get('progress', 'No progress available')
+            print(f"Selected anime: {anime_title}, Progress: {anime_progress}")
+        else:
+            print(f"Anime ID {anime_id_str} not found in progress data.")
+    except FileNotFoundError:
+        print(f"{progress_file} not found.")
+    except json.JSONDecodeError:
+    print(f"Error decoding {progress_file}.")"""
