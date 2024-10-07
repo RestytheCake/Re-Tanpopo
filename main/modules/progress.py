@@ -173,7 +173,3 @@ def Load_API():
         print("AniList progress has been written to progressjson.")
     else:
         print("AniList access token or user ID not found.")
-
-
-# Call Load_API to start the process
-Load_API()

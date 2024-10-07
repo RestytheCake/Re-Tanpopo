@@ -6,7 +6,8 @@ import webbrowser
 import requests
 from localStoragePy import localStoragePy
 
-from main.modules.api import Load_API
+from main.modules.api import load_api
+from main.modules.progress import Load_API
 
 # Step 1: Register your application and obtain client credentials
 CLIENT_ID = '17593'
@@ -129,6 +130,7 @@ class ToplevelWindow(customtkinter.CTkToplevel):
             if access_token:
                 print("Access token:", access_token)
                 print("Success")
+                load_api()
                 Load_API()
                 self.destroy()
             else:

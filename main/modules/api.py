@@ -173,18 +173,13 @@ def get_media_list_collection(access_token, user_id):
     }
 
     current_shows = fetch_media_list('CURRENT')
-    time.sleep(1)
     rewatched_shows = fetch_media_list('REPEATING')
-    time.sleep(1)
     completed_shows = fetch_media_list('COMPLETED')
-    time.sleep(1)
     plan_to_watch_shows = fetch_media_list('PLANNING')
-    time.sleep(1)
-
     return current_shows, rewatched_shows, completed_shows, plan_to_watch_shows
 
 
-def Load_API():
+def load_api():
     ls = localStoragePy('Tanpopo Rewrite', 'json')
     # Fetch the AniList access token and user ID from account.json
     try:
@@ -235,6 +230,5 @@ def Load_API():
             print("No data retrieved for any of the lists.")
     else:
         print("AniList access token or user ID not found in account.json.")
-
 
 
