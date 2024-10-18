@@ -11,6 +11,7 @@ from main.modules.globalmanager import GlobalManager
 from main.modules.path import Player, series_locations, progressjson
 from main.modules.progress import Load_API
 
+
 # Function to reload the main AnimeViewer instance
 def back_to_main():
     animeviewer_instance = GlobalManager.get_animeviewer_instance()
@@ -46,15 +47,16 @@ class AnimeDetails(ctk.CTkFrame):
         self.description_label = None
         self.episode_list = None
         self.episode_files = []  # Store episode file paths
+        self.progress_label = None
 
+        #This calls the _create_widgets Function, which creates the UI Widgets. All Calls go inside the function
         self._create_widgets()
-        self.update_episode_list()
-        # self.search_progress()
 
     def _create_widgets(self):
         self._setup_layout()
         self._create_left_frame()
         self._create_right_frame()
+
 
     def _setup_layout(self):
         self.grid_columnconfigure(0, weight=1, uniform="a")
@@ -71,6 +73,10 @@ class AnimeDetails(ctk.CTkFrame):
         self._create_title_label()
         self._create_id_label()
         self._create_episode_list()
+        self._create_progress_label()
+        self.update_episode_list()
+        self.search_progress()
+
 
     def _create_cover_label(self):
         cover_label = ctk.CTkLabel(self.left_frame, image=self.image, text="", corner_radius=10)
@@ -147,6 +153,11 @@ class AnimeDetails(ctk.CTkFrame):
         )
         self.description_label.grid(row=1, column=0, pady=5, sticky="w")
 
+    def _create_progress_label(self):
+        self.progress_label = ctk.CTkLabel(
+            self.left_frame, text="", font=ctk.CTkFont(size=14), text_color="grey"
+        )
+        self.progress_label.grid(row=4, column=0, pady=(5, 10), padx=self.PADDING, sticky="nw")
 
     def update_episode_list(self):
         if self.episode_list.size() > 0:
@@ -162,7 +173,7 @@ class AnimeDetails(ctk.CTkFrame):
             print(f"Episode files: {self.episode_files}")  # Debugging statement
         else:
             print("No directory found for the anime ID.")
-            #self.collectprogress()
+            # self.collectprogress()
 
     def read_file_location(self, anime_id):
         try:
@@ -193,12 +204,12 @@ class AnimeDetails(ctk.CTkFrame):
         self.episodes.sort(key=lambda x: int(re.search(r'\d+', x['display']).group()))
         return self.episodes
 
-    def play_selected_episode(self,event):
+    def play_selected_episode(self, event):
         selection = self.episode_list.curselection()
         print(f"Selection: {selection}")  # Debugging statement
 
         if selection:  # Check if selection is not empty
-            index = selection # Safe to access the first element now
+            index = selection  # Safe to access the first element now
             # Continue with your logic to play the selected episode using the index
             print(f"Selected index: {index}")  # For debugging
 
@@ -223,14 +234,13 @@ class AnimeDetails(ctk.CTkFrame):
             self.description_frame.grid()
             self.description_visible = True
 
-
     def set_folder_location(self):
-    # This method sets the folder location for the anime
+        # This method sets the folder location for the anime
         self.folder_path = filedialog.askdirectory(title="Select Folder")
         if self.folder_path:
             # Save or process the selected folder path as needed
             print(f"Folder selected: {self.folder_path}")
-        
+
         # Read existing data from JSON file
         try:
             with open(series_locations, 'r') as file:
@@ -253,7 +263,7 @@ class AnimeDetails(ctk.CTkFrame):
 
 
     def search_progress(self):
-        progress_file = progressjson # Update with actual path if necessary
+        progress_file = progressjson
         try:
             with open(progress_file, 'r') as f:
                 progress_data = json.load(f)
@@ -262,10 +272,17 @@ class AnimeDetails(ctk.CTkFrame):
                 anime_info = progress_data[anime_id_str]
                 anime_title = anime_info.get('title', 'Unknown Title')
                 anime_progress = anime_info.get('progress', 'No progress available')
+
+                # Update the progress label
+                self.progress_label.configure(text=f"Progress: {anime_progress}")
                 print(f"Selected anime: {anime_title}, Progress: {anime_progress}")
             else:
+                self.progress_label.configure(text="Progress: No progress available")
                 print(f"Anime ID {anime_id_str} not found in progress data.")
         except FileNotFoundError:
-                print(f"{progress_file} not found.")
+            self.progress_label.configure(text="Progress: File not found")
+            print(f"{progress_file} not found.")
         except json.JSONDecodeError:
-                print(f"Error decoding {progress_file}.")
+            self.progress_label.configure(text="Progress: Error reading file")
+            print(f"Error decoding {progress_file}.")
+
