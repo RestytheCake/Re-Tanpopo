@@ -6,8 +6,7 @@ import webbrowser
 import requests
 from localStoragePy import localStoragePy
 
-from main.modules.api import load_api
-from main.modules.progress import Load_API
+from main.modules.data import load_APIs
 
 # Step 1: Register your application and obtain client credentials
 CLIENT_ID = '17593'
@@ -59,10 +58,10 @@ def exchange_code_for_token(authorization_code):
                 print("Failed to fetch user info.")
                 return None
         else:
-            print("Failed to exchange authorization code for access token.")
+            print("Failed to exchange authorization code for access token - 1.")
             return None
     else:
-        print("Failed to exchange authorization code for access token.")
+        print("Failed to exchange authorization code for access token. - 2")
         return None
 
 
@@ -130,8 +129,7 @@ class ToplevelWindow(customtkinter.CTkToplevel):
             if access_token:
                 print("Access token:", access_token)
                 print("Success")
-                load_api()
-                Load_API()
+                load_APIs()
                 self.destroy()
             else:
                 print("Authorization failed.")

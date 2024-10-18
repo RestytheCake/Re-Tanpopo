@@ -3,14 +3,11 @@ from localStoragePy import localStoragePy
 
 from main.gui.Settings.service_frame.template import create_notebook_frame
 from main.gui.Auth_Window import authwindow
-from main.modules.api import load_api
-from main.modules.progress import Load_API
+from main.modules.data import load_APIs
 
 
 def api():
-    load_api()
-    Load_API()
-
+    load_APIs()
 
 
 def create_services_frame(self, name="Services"):

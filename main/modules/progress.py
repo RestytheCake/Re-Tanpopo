@@ -50,8 +50,8 @@ def fetch_anime_info_with_progress(anime_ids, access_token):
 
 
 # Function to fetch the user's anime progress from AniList
-def get_media_list_collection(access_token, user_id):
-    def fetch_media_list(status):
+def get_media_list_collection_progress(access_token, user_id):
+    def fetch_media_list_progress(status):
         query = '''
         query ($userId: Int, $type: MediaType, $status: MediaListStatus) {
           MediaListCollection (userId: $userId, type: $type, status: $status) {
@@ -98,20 +98,17 @@ def get_media_list_collection(access_token, user_id):
         'Authorization': f'Bearer {access_token}'
     }
 
-    current_shows = fetch_media_list('CURRENT')
-    time.sleep(1)
-    rewatched_shows = fetch_media_list('REPEATING')
-    time.sleep(1)
-    completed_shows = fetch_media_list('COMPLETED')
-    time.sleep(1)
-    plan_to_watch_shows = fetch_media_list('PLANNING')
-    time.sleep(1)
+    current_shows = fetch_media_list_progress('CURRENT')
+    rewatched_shows = fetch_media_list_progress('REPEATING')
+    completed_shows = fetch_media_list_progress('COMPLETED')
+    plan_to_watch_shows = fetch_media_list_progress('PLANNING')
 
     return current_shows, rewatched_shows, completed_shows, plan_to_watch_shows
 
 
 # Function to print and write anime progress to progressjson
 def process_anime_progress(media_list, progress_data):
+    print("//progress anime ")
     for media_list_section in media_list['lists']:
         for entry in media_list_section['entries']:
             anime_id = entry['media']['id']
@@ -135,7 +132,8 @@ def process_anime_progress(media_list, progress_data):
             }
 
 
-def Load_API():
+def Load_Progress_API():
+    print("***Init Load_API: Progress Function")
     ls = localStoragePy('Tanpopo Rewrite', 'json')
     # Fetch the AniList access token and user ID from account.json
     try:
@@ -146,7 +144,7 @@ def Load_API():
         user_id = None
 
     if access_token and user_id:
-        current_shows, rewatched_shows, completed_shows, plan_to_watch_shows = get_media_list_collection(access_token, user_id)
+        current_shows, rewatched_shows, completed_shows, plan_to_watch_shows = get_media_list_collection_progress(access_token, user_id)
 
         progress_data = {}
 

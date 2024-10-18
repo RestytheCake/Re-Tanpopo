@@ -179,7 +179,7 @@ def get_media_list_collection(access_token, user_id):
     return current_shows, rewatched_shows, completed_shows, plan_to_watch_shows
 
 
-def load_api():
+def load_anime_api():
     ls = localStoragePy('Tanpopo Rewrite', 'json')
     # Fetch the AniList access token and user ID from account.json
     try:

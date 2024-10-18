@@ -9,7 +9,6 @@ import CTkListbox
 from PIL import Image
 from main.modules.globalmanager import GlobalManager
 from main.modules.path import Player, series_locations, progressjson
-from main.modules.progress import Load_API
 
 
 # Function to reload the main AnimeViewer instance
@@ -57,7 +56,6 @@ class AnimeDetails(ctk.CTkFrame):
         self._create_left_frame()
         self._create_right_frame()
 
-
     def _setup_layout(self):
         self.grid_columnconfigure(0, weight=1, uniform="a")
         self.grid_columnconfigure(1, weight=2, uniform="a")
@@ -76,7 +74,6 @@ class AnimeDetails(ctk.CTkFrame):
         self._create_progress_label()
         self.update_episode_list()
         self.search_progress()
-
 
     def _create_cover_label(self):
         cover_label = ctk.CTkLabel(self.left_frame, image=self.image, text="", corner_radius=10)
@@ -261,7 +258,6 @@ class AnimeDetails(ctk.CTkFrame):
 
         print(f"Folder location saved for anime ID {self.anime_id}: {self.folder_path}")
 
-
     def search_progress(self):
         progress_file = progressjson
         try:
@@ -285,4 +281,3 @@ class AnimeDetails(ctk.CTkFrame):
         except json.JSONDecodeError:
             self.progress_label.configure(text="Progress: Error reading file")
             print(f"Error decoding {progress_file}.")
-

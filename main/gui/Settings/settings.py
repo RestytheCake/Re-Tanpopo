@@ -33,7 +33,7 @@ class SettingsWindow(tk.Toplevel):
 
         self.title("Settings")
         self.geometry("600x505")
-        self.resizable(False, False)
+        #self.resizable(False, False)
         # TODO: fix needed for Linux
         #self.grab_set()
 
