@@ -1,14 +1,18 @@
 import json
 import os
 import re
-import subprocess
 import customtkinter as ctk
 import tkinter as tk
 from tkinter import filedialog
 import CTkListbox
 from PIL import Image
+
+from main.gui.player.mpv_player import MPVPlayerWindow
 from main.modules.globalmanager import GlobalManager
 from main.modules.path import Player, series_locations, progressjson
+
+
+# Import the new MPVPlayerWindow class
 
 
 # Function to reload the main AnimeViewer instance
@@ -48,7 +52,7 @@ class AnimeDetails(ctk.CTkFrame):
         self.episode_files = []  # Store episode file paths
         self.progress_label = None
 
-        #This calls the _create_widgets Function, which creates the UI Widgets. All Calls go inside the function
+        # Call the function to create UI widgets
         self._create_widgets()
 
     def _create_widgets(self):
@@ -81,13 +85,13 @@ class AnimeDetails(ctk.CTkFrame):
 
     def _create_title_label(self):
         title_label = ctk.CTkLabel(
-            self.left_frame, text=self.title, font=ctk.CTkFont(size=20, weight="bold"), text_color="#333333"
-        )
+            self.left_frame, text=self.title, font=ctk.CTkFont(size=20, weight="bold"), text_color="#333333")
         title_label.grid(row=1, column=0, pady=(5, 3), padx=self.PADDING, sticky="nw")
 
     def _create_id_label(self):
         id_label = ctk.CTkLabel(
-            self.left_frame, text=f"ID: {self.anime_id}", font=ctk.CTkFont(size=12, slant="italic"), text_color="grey"
+            self.left_frame, text=f"ID: {self.anime_id}", font=ctk.CTkFont(size=12, slant="italic"),
+            text_color="grey"
         )
         id_label.grid(row=2, column=0, padx=self.PADDING, pady=(3, 10), sticky="nw")
 
@@ -140,7 +144,8 @@ class AnimeDetails(ctk.CTkFrame):
         self.description_frame.grid_remove()
 
         description_label_title = ctk.CTkLabel(
-            self.description_frame, text="Description:", font=ctk.CTkFont(size=16, weight="bold"), text_color="#333333"
+            self.description_frame, text="Description:", font=ctk.CTkFont(size=16, weight="bold"),
+            text_color="#333333"
         )
         description_label_title.grid(row=0, column=0, pady=5, sticky="w")
 
@@ -183,7 +188,7 @@ class AnimeDetails(ctk.CTkFrame):
 
     def get_episodes_from_directory(self, directory):
         # Updated regex to ignore numbers inside square brackets
-        self.episode_pattern = re.compile(r'(\d{1,3})(?=\s*[^a-zA-Z0-9]*\.mkv)')
+        self.episode_pattern = re.compile(r'(\d{1,3})(?=\s*[^a-zA-Z0-9]*\.mp4)')
 
         for filename in os.listdir(directory):
             # Remove any content inside square brackets before searching for episode numbers
@@ -200,28 +205,6 @@ class AnimeDetails(ctk.CTkFrame):
 
         self.episodes.sort(key=lambda x: int(re.search(r'\d+', x['display']).group()))
         return self.episodes
-
-    def play_selected_episode(self, event):
-        selection = self.episode_list.curselection()
-        print(f"Selection: {selection}")  # Debugging statement
-
-        if selection:  # Check if selection is not empty
-            index = selection  # Safe to access the first element now
-            # Continue with your logic to play the selected episode using the index
-            print(f"Selected index: {index}")  # For debugging
-
-            # Check if index is within bounds of episode_files
-            if 0 <= index < len(self.episode_files):
-                episode_path = self.episode_files[index]
-                print(f"Playing episode at: {episode_path}")  # Debugging statement
-
-                # Run the player with the episode path
-                with open(Player, 'r') as file:
-                    data = json.load(file)
-
-                # Extract the value associated with the "mpv" key
-                player_executable = data.get("mpv")
-                subprocess.Popen([player_executable, episode_path])
 
     def toggle_description(self):
         if self.description_visible:
@@ -281,3 +264,17 @@ class AnimeDetails(ctk.CTkFrame):
         except json.JSONDecodeError:
             self.progress_label.configure(text="Progress: Error reading file")
             print(f"Error decoding {progress_file}.")
+
+    def play_selected_episode(self, event):
+        selection = self.episode_list.curselection()
+        print(f"Selection: {selection}")  # Debugging statement
+
+        index = selection  # Access the first element of the selection tuple
+        print(f"Selected index: {index}")  # For debugging
+
+        if 0 <= index < len(self.episode_files):
+            episode_path = self.episode_files[index]
+            print(f"Playing episode at: {episode_path}")  # Debugging statement
+
+            # Open the MPVPlayerWindow for the selected episode
+            MPVPlayerWindow(self, episode_path)
